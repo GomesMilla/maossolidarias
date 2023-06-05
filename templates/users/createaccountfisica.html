@@ -1,0 +1,112 @@
+{% extends 'bases/baselogado.html' %}
+{% load static %}
+{% load bootstrap %}
+{% block conteudo %}
+
+<body>
+    <style>
+        .top{
+            margin-top: 10%;
+        }
+        .tituloIndex{
+            margin-top: 10%;
+            font-family: 'Fira Sans', sans-serif;
+            font-size: 35px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+    </style>
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Termos e condições</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p style="text-align: justify;">
+                        1.1. O sistema Mãos Amigas foi desenvolvido como parte de um projeto acadêmico, com o objetivo de aplicar e aprimorar os conhecimentos adquiridos durante o curso. Portanto, é importante ressaltar que o sistema pode apresentar limitações, inconsistências e funcionalidades ainda não implementadas.
+                    </p>
+                    <p style="text-align: justify;">
+                        1.2. Ao utilizar o sistema Mãos Amigas, estou ciente de que posso encontrar erros, falhas de funcionamento ou indisponibilidade temporária de determinadas funcionalidades. Compreendo que tais situações são inerentes à fase de implantação e desenvolvimento do sistema.
+                    </p>
+                    <p style="text-align: justify;">
+                        1.3. Declaro também estar ciente de que minha participação no uso e teste do sistema Mãos Amigas é voluntária e que meu feedback e sugestões são valiosos para contribuir com a evolução do projeto.
+                    </p>
+                    <p style="text-align: justify;">
+                        1.3.1 Comprometo-me a relatar quaisquer problemas ou dificuldades encontradas durante a utilização do sistema, de forma clara e objetiva, com o intuito de auxiliar no seu aprimoramento.
+                    </p>
+                    <p style="text-align: justify;">
+                        1.3.2 Assumo a responsabilidade por qualquer informação fornecida no sistema Mãos Amigas, ciente de que o sistema está em fase de teste e que sua utilização é exclusivamente para fins acadêmicos.
+                    </p>
+                    <p style="text-align:justify;">
+                        1.4. O Declaro, ainda, estar ciente de que a equipe responsável pelo desenvolvimento do sistema Mãos Amigas não se responsabiliza por eventuais danos causados pelo uso do sistema durante a fase de implantação.
+                    </p>
+                    <p style="text-align:justify;">
+                        1.5. Por fim, manifesto meu consentimento em utilizar o sistema Mãos Amigas e me comprometo a colaborar de maneira construtiva, visando contribuir para aprimorar sua qualidade e funcionalidade.
+                    </p>             
+                </div>
+                <div class="modal-footer">
+                    <button id="id_Fechar" type="button" class="btn btn-danger" data-bs-dismiss="modal">Fechar</button>
+                    <button id="id_Entendi" type="button" class="btn btn-success" data-bs-dismiss="modal">Entendi</button>
+                </div>
+            </div>
+        </div>
+    </div>  
+    <div class="container mt-5">
+        <p class="tituloIndex">Prezado(a),</p>
+        <p class="text-muted">Ficamos extremamente satisfeitos em saber que você tem interesse em se cadastrar em nosso sistema e fazer parte dessa valiosa rede de apoio. Para prosseguir com o cadastro, solicitamos que preencha todos os campos obrigatórios.</p>
+        <div class="text-justify">
+            <div class="row mt-5">
+                <div class="col s12 m6 l6">
+                    <div class="d-flex justify-content-start mt-1">
+                        <img src="{% static 'images/undraw_team_re_0bfe.svg' %}" alt="Foto de Apresentação" width="60%" height="60%">      
+                    </div> 
+                </div>
+                <div class="col s12 m6 l6">
+                    <span class="">
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{form.media}}
+                            {{ form|bootstrap }}
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="dropdownCheck2">
+                                <label class="form-check-label" for="dropdownCheck2">
+                                    Li e concordo com os <a href="#staticBackdrop" data-bs-toggle="modal"  data-bs-target="#staticBackdrop">Termos e condições</a> descritos
+                                </label>
+                            </div>
+                            <div class="d-grid gap-2 col-6 mx-auto">
+                                <button class="btn btn-dark rounded-pill" id="botao" type="submit">Cadastrar</button>
+                            </div>
+                        </form>  
+                    </span>
+                </div>
+            </div>
+        </div>       
+    </div>
+</body>
+
+<script>
+    var elemento = document.getElementById("id_imagemperfil");
+    elemento.classList.add("form-control");
+    $("#botao").attr("disabled", "true"); // botão já começa desabilitado    
+    // Opções do modal para selecionar de acordo com o click
+    $('#id_Entendi').click(function () {
+        $("#dropdownCheck2").prop("checked", true);
+        $("#botao").removeAttr("disabled", ""); 
+    })
+    $('#id_Fechar').click(function () {
+        $("#dropdownCheck2").prop("checked", false); 
+        $("#botao").removeAttr("disabled", "");
+    })
+    $("#dropdownCheck2").click(function() {
+        if($(this).is(':checked')){
+            $("#botao").removeAttr("disabled", "");
+        }else {
+            $("#botao").attr("disabled", "true");
+        }
+    });
+</script>
+
+{% endblock %}

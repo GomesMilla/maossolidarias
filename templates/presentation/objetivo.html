@@ -1,0 +1,83 @@
+{% extends 'bases/baselogado.html' %}
+{% load static %}
+{% block conteudo %}
+
+<body>
+    <style>
+        .top{
+            margin-top: 10%;
+          }
+          .tituloIndex{
+            margin-top: 10%;
+            font-family: 'Fira Sans', sans-serif;
+            font-size: 50px;
+        }
+          
+    </style>
+    <div class="container top">
+        <p class="tituloIndex">Por que?</p>
+        <p class="fs-5 fw-bolder text-muted">“Doações significa lutar”</p>
+        <div class="text-justify">
+            <p style="text-align: justify;">
+                Ações cívico-sociais, como doações e serviços voluntários, desempenham um papel essencial na busca por contribuições em prol de diversas causas. 
+                O avanço das tecnologias digitais, o aumento do acesso à internet e o surgimento de plataformas dedicadas ao apoio de causas cívico-sociais, têm transformado significativamente o cenário das doações. As redes sociais desempenham um papel fundamental na disseminação de informações e na conscientização das pessoas sobre causas relevantes. Esse contexto cria uma oportunidade valiosa para o desenvolvimento de um sistema web que possa apoiar instituições dependentes de doações para alcançar suas metas.
+                Com base nisso, foi desenvolvido um sistema web que atua como uma plataforma robusta e eficiente para facilitar a interação entre doadores e instituições beneficentes. O sistema busca otimizar o processo de contribuição, proporcionando recursos tecnológicos avançados e uma interface intuitiva. Isso permitirá uma maior facilidade na realização de doações e promoverá um maior engajamento da comunidade em causas de relevância social.
+                Essa iniciativa representa um marco importante na evolução do apoio cívico-social, ao alinhar os avanços tecnológicos contemporâneos com a promoção do bem comum. Ao unir pessoas dispostas a contribuir e organizações que necessitam de recursos, o sistema tem o propósito de potencializar a eficácia das doações online, impulsionando o alcance e a concretização dos objetivos das instituições envolvidas.
+            </p>
+            <p class="mt-5" style="text-align: justify;">
+
+            </p>
+            <p class="tituloIndex">Objetivos:</p>
+            <div class="row mt-5">
+                <div class="col s12 m6 l6 top">
+                    <span class="fs-5 fw-bolder text-muted">
+                        Auxiliar instituições carentes na obtenção de recursos não financeiros.
+                    </span>
+                </div>
+                <div class="col s12 m6 l6">
+                    <div class="d-flex justify-content-end">
+                        <img src="{% static 'images/undraw_gifts_0ceh.svg' %}" alt="Foto de Apresentação" width="60%" height="60%">      
+                    </div> 
+                </div>
+            </div>
+            <div class="row top">
+                <div class="col s12 m6 l6">
+                    <div class="d-flex justify-content-start">
+                        <img src="{% static 'images/undraw_growth_analytics_re_pyxf.svg' %}" alt="Foto de Apresentação" width="60%" height="60%">      
+                    </div> 
+                </div>
+                <div class="col s12 m6 l6 top">
+                    <span class="fs-5 fw-bolder text-muted">
+                        Auxiliar  instituições que dependem de doações para alcançar suas metas.
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12 m6 l6 top">
+                    <span class="fs-5 fw-bolder text-muted">
+                        Aumentar o alcance das instituições que dependem de doações.
+                    </span>
+                </div>
+                <div class="col s12 m6 l6">
+                    <div class="d-flex justify-content-end">
+                        <img src="{% static 'images/undraw_connected_world_wuay.svg' %}" alt="Foto de Apresentação" width="90%" height="600%">      
+                    </div> 
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12 m6 l6 ">
+                    <div class="d-flex justify-content-start">
+                        <img src="{% static 'images/undraw_connected_re_lmq2.svg' %}" alt="Foto de Apresentação" width="60%" height="60%">      
+                    </div> 
+                </div>
+                <div class="col s12 m6 l6 top">
+                    <span class="fs-5 fw-bolder text-muted">
+                        Promover a união entre pessoas e organizações em busca de recursos;
+                    </span>
+                </div>
+            </div>
+        </div>       
+    </div>
+</body>
+
+{% endblock %}

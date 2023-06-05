@@ -1,0 +1,91 @@
+{% extends 'bases/baselogado.html' %}
+{% load static %}
+{% block conteudo %}
+
+    <style>
+        .top{
+            margin-top: 6%;
+        }
+        .tituloIndex{
+            margin-top: 8%;
+            font-family: 'Fira Sans', sans-serif;
+            font-size: 35px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .center{
+            align-itens: center
+        }
+    </style>
+    <div class="top">
+        <div class="col-md-12 col-12">
+            <div class="mt-3">
+                <div class="col-md-12 col-12 profile-back text-center">
+                        {% if object.imagemperfil %}
+                            <img src="{{ object.imagemperfil.url }}" class="rounded-circle" style="width: 200px; height: 200px;">
+                        {% else %}
+                            <img src="{% static 'images/undraw_female_avatar_efig.svg' %}" class="rounded-circle" style="width: 150px; height: 150px;">
+                        {% endif %}                        
+                    <h5 class="mt-2">{{object.nome_completo }}</h5>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <ul class="list-group list-group-horizontal">
+                        <li class="list-group-item">CNPJ: {{object.cnpj|default:"Não Informado" }}</li>
+                        <li class="list-group-item">Razão Social: {{object.razao_social|default:"Não Informado" }}</li>
+                        <li class="list-group-item">E-mail: {{object.nome_completo|default:"Não Informado" }}</li>
+                    </ul> 
+                </div>
+                <div class="d-flex justify-content-center mt-2">
+                    <ul class="list-group list-group-horizontal">
+                        <li class="list-group-item">E-mail extra: {{object.email_extra|default:"Não Informado" }}</li>
+                        <li class="list-group-item">Telefone: {{object.telefone_contato|default:"Não Informado" }}</li>
+                        <li class="list-group-item">Telefone Extra: {{object.telefone_contato_extra|default:"Não Informado" }}</li>
+                    </ul> 
+                </div>
+                <div class="d-flex justify-content-center mt-2">
+                    <ul class="list-group list-group-horizontal">
+                        <li class="list-group-item">CEP: {{object.cep|default:"Não Informado" }}</li>
+                        <li class="list-group-item">Cidade: {{object.cep|default:"Não Informado" }}</li>
+                        <li class="list-group-item">Bairro: {{object.bairro|default:"Não Informado" }}</li>
+                        <li class="list-group-item">Rua: {{object.rua|default:"Não Informado" }}</li>
+                        <li class="list-group-item">Número: {{object.numero|default:"Não Informado" }}</li>
+                    </ul> 
+                </div>
+                <div class="d-flex justify-content-center mt-2">
+                    <ul class="list-group list-group-horizontal">
+                        <li class="list-group-item">Link Página Extra: {{object.linkdoperfil|default:"Não Informado" }}</li>
+                    </ul> 
+                </div>
+                <div class="container mt-5">
+                        {{object.paginadoperfil|safe }}
+                </div>
+                {% if list_solicitacoes %}
+                    <div class="container mt-5">
+                        <p class="tituloIndex">Mais Solicitações</p>
+                        <div class="row row-cols-12 row-cols-md-3 g-4 align-items-stretch">
+                            {% for solcitacao in list_solicitacoes %}
+                                <div class="col">
+                                    <div class="card p-2 h-100">
+                                        <img src="{{solcitacao.fotoImagem.url}}" alt="{{solcitacao.titulo}}" width="400" height="354">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{solcitacao.titulo}}</h5>
+                                            <a href="{% url 'perfil' solcitacao.usuario.id %}" class="text-muted">{{solcitacao.usuario.nome_completo}}</a>
+                                            <br>
+                                            <span class="badge rounded-pill text-bg-dark">{{solcitacao.tipo}}</span>
+                                            <p class="card-text mt-2">{{solcitacao.resumo|linebreaksbr|truncatechars:100}}</p>
+                                            <a href="{% url 'ver_solicitacao' solcitacao.id %}">Ver Mais</a>
+                                        </div>
+                                        <div class="card-footer">
+                                            <small class="text-body-secondary">{{solcitacao.horarioCriacao}}</small>
+                                        </div>
+                                    </div>                    
+                                </div>
+                            {% endfor %}  
+                        </div>        
+                    </div>                                   
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %} 

@@ -1,0 +1,42 @@
+{% extends 'bases/baselogado.html' %}
+{% load static %}
+{% load bootstrap %}
+{% block conteudo %}
+
+<style>
+    .top{
+        margin-top: 10%;
+    }
+    .tituloIndex{
+        margin-top: 10%;
+        font-family: 'Fira Sans', sans-serif;
+        font-size: 35px;
+    }
+    .form-group {
+        margin-bottom: 15px;
+    }
+    .center{
+        align-itens: center
+    }
+</style>
+    <div class="container top text-center">
+        <p class="tituloIndex">Login</p>
+        <form role="form" method="post" class="d-flex justify-content-center">
+            {% csrf_token %}    
+            <div class="col col-lg-6">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" name="username" id="id_username" placeholder="ada.lovelace">
+                    <label for="id_username">Username</label>
+                </div>
+                <div class="form-floating mb-5">
+                    <input type="password" name="password" class="form-control" id="id_password" placeholder="Senha">
+                    <label for="id_password">Senha</label>
+                </div>
+                <div class="d-grid gap-2 col-6 mx-auto">
+                    <button class="btn btn-dark rounded-pill" type="submit">Entrar</button>
+                </div>
+            </div>                             
+        </form>        
+    </div>
+
+{% endblock %} 

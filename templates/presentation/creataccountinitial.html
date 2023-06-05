@@ -1,0 +1,44 @@
+{% extends 'bases/baselogado.html' %}
+{% load static %}
+{% load bootstrap %}
+{% block conteudo %}
+
+<body>
+    <style>
+        .top{
+            margin-top: 10%;
+        }
+        .tituloIndex{
+            margin-top: 10%;
+            font-family: 'Fira Sans', sans-serif;
+            font-size: 35px;
+        }
+    </style>
+    <div class="container top">
+        <div class="row justify-content-evenly">
+            <div class="col s12 m6 l6">
+                <div class="d-flex justify-content-around">
+                    <img src="{% static 'images/undraw_connected_re_lmq2.svg' %}" alt="Foto de Apresentação" width="55%" height="55%">      
+                </div>
+                <div class="d-grid col-6 mx-auto mt-5">
+                    <a href="{% url 'criar_conta_fisico' %}" class="btn btn-dark rounded-pill">Pessoa Física</a>
+                </div> 
+            </div>
+            <div class="col s12 m6 l6">
+                <div class="d-flex justify-content-around">
+                    <img src="{% static 'images/undraw_building_re_xfcm.svg' %}" alt="Foto de Apresentação" width="68%" height="85%">      
+                </div>
+                <div class="d-grid col-6 mx-auto mt-5">
+                    <a href="{% url 'criar_conta_juridico' %}" class="btn btn-dark rounded-pill ml-5">Pessoa Jurídica</a>
+                </div>                    
+            </div>
+        </div>       
+    </div>
+</body>
+
+<script>
+    var elemento = document.getElementById("id_imagemperfil");
+    elemento.classList.add("form-control");
+</script>
+
+{% endblock %}
