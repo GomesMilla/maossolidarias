@@ -1,6 +1,7 @@
 from pathlib import Path
 import os, sys
 import logging
+import django_on_heroku
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-57usab^u_#cvrcvzut02+==ia&z@a^+_*(1+8p&00_!!&du%%y'
 DEBUG = True
@@ -155,3 +156,4 @@ MEDIA_URL='/media/'
 MEDIA_ROOT='media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+django_on_heroku.settings(locals())
