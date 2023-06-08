@@ -54,17 +54,17 @@
             </div>
         </div>
     </div>  
-    <div class="container mt-5">
-        <p class="tituloIndex">Prezado(a),</p>
+    <div class="container">
+        <p class="titulocriarconta">Prezado(a),</p>
         <p class="text-muted">Ficamos extremamente satisfeitos em saber que você tem interesse em se cadastrar em nosso sistema e fazer parte dessa valiosa rede de apoio. Para prosseguir com o cadastro, solicitamos que preencha todos os campos obrigatórios.</p>
         <div class="text-justify">
             <div class="row mt-5">
-                <div class="col s12 m6 l6">
+                <div class="col-12 col-md-6 col-sm-12">
                     <div class="d-flex justify-content-start mt-1">
-                        <img src="{% static 'images/undraw_team_re_0bfe.svg' %}" alt="Foto de Apresentação" width="60%" height="60%">      
+                        <img src="{% static 'images/undraw_team_re_0bfe.svg' %}" alt="Foto de Apresentação" width="60%" height="60%" class="d-none d-sm-block">      
                     </div> 
                 </div>
-                <div class="col s12 m6 l6">
+                <div class="col-12 col-md-6 col-sm-12">
                     <span class="">
                         <form method="POST" enctype="multipart/form-data">
                             {% csrf_token %}
@@ -85,6 +85,7 @@
             </div>
         </div>       
     </div>
+    
 </body>
 
 <script>

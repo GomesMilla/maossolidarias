@@ -3,36 +3,20 @@
 {% load bootstrap %}
 {% block conteudo %}
 
-    <style>
-        .top{
-            margin-top: 8%;
-        }
-        .tituloIndex{
-            margin-top: 10%;
-            font-family: 'Fira Sans', sans-serif;
-            font-size: 35px;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        .center{
-            align-itens: center
-        }
-    </style>
-    <div class="container top">
-        <p class="tituloIndex">Pedir Doação</p>
-        <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{form.media}}
-            {{ form|bootstrap }}
-            <div class="d-grid gap-2 col-6 mx-auto">
-                <button class="btn btn-dark rounded-pill" type="submit">Cadastrar</button>
-            </div>
-        </form>  
-    </div>
-    <script>
-        var elemento = document.getElementById("id_fotoImagem");
-        elemento.classList.add("form-control");
-    </script>
+<div class="container">
+    <p class="tituloIndexcadastro">Pedir Doação</p>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{form.media}}
+        {{ form|bootstrap }}
+        <div class="d-grid gap-2 col-6 mx-auto">
+            <button class="btn btn-dark rounded-pill" type="submit">Cadastrar</button>
+        </div>
+    </form>  
+</div>
+<script>
+    var elemento = document.getElementById("id_fotoImagem");
+    elemento.classList.add("form-control");
+</script>
 
 {% endblock %} 
