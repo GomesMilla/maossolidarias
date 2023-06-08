@@ -1,10 +1,24 @@
 .topobjetivo{
-    margin-top: 10%;
+    margin-top: 9%;
 }
 .tituloIndex{
     margin-top: 9%;
     font-family: 'Fira Sans', sans-serif;
     font-size: 50px;
+}
+.titulodetailsolicitacao{
+    margin-top: 5%;
+    font-family: 'Fira Sans', sans-serif;
+    font-size: 50px;
+}
+.form-group {
+    margin-bottom: 20px;
+}
+.center{
+    align-items: center;
+}
+a{
+    text-decoration: none;
 }
 
 @media only screen and (max-width:490px){
@@ -12,5 +26,13 @@
         margin-top: 22%;
         font-family: 'Fira Sans', sans-serif;
         font-size: 50px;
+    }
+    .topobjetivo{
+        margin-top: 22%;
+    }
+    .titulodetailsolicitacao{
+        margin-top: 5%;
+        font-family: 'Fira Sans', sans-serif;
+        font-size: 25px;
     }
 }
