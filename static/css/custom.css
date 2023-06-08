@@ -1,0 +1,16 @@
+.topobjetivo{
+    margin-top: 10%;
+}
+.tituloIndex{
+    margin-top: 9%;
+    font-family: 'Fira Sans', sans-serif;
+    font-size: 50px;
+}
+
+@media only screen and (max-width:490px){
+    .tituloIndex{
+        margin-top: 22%;
+        font-family: 'Fira Sans', sans-serif;
+        font-size: 50px;
+    }
+}

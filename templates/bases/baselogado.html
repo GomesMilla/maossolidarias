@@ -10,10 +10,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.compat.css" />
 
     <!-- importando CSS e JV  -->
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css'%}">
-
-    <link type="text/css" rel="stylesheet" href="{% static 'css/custom.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css'%}">   
     <link href="{% static 'css/HoldOn.min.css'%}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
     {% comment %} <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script> {% endcomment %}
     <script src="{% static 'js/jquery.mask.js' %}"></script>
 
@@ -89,55 +88,6 @@
     {% endfor %} 
     {% endif %}
     <header>
-        <!-- Nav para aparelhos maiores -->
-        {% comment %} <nav class="navbar navbar-expand-lg navbar-light bg-light mh-5 border-bottom border-dark">
-            <div class="container-fluid me-5 ms-5">
-              <a class="navbar-brand" href="#">
-                <img src="{% static 'images/WhatsApp Image 2023-06-05 at 19.43.02.jpeg' %}" alt="Imagem da logo" width="60" height="50">
-              </a>
-              <div class="d-flex justify-content-end">
-                <div class="collapse navbar-collapse " id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item dropdown m-2">
-                          <li class="nav-item m-2">
-                            <a class="nav-link active" aria-current="page" href="{% url 'introducao' %}">Introdução</a>
-                        </li>
-                        <li class="nav-item m-2">
-                          <a class="nav-link active" aria-current="page" href="{% url 'objetivo' %}">Objetivos</a>
-                        </li>
-                        <li class="nav-item m-2">
-                          <a class="nav-link active" aria-current="page" href="{% url 'solicitacoes' %}">Solicitações</a>
-                        </li>
-                        {% if user.is_authenticated %}
-                          {% if user.is_juridico %}
-                            <li class="nav-item m-2">
-                              <a class="nav-link active" aria-current="page" href="{% url 'pedir_doacao' %}">Pedir Doação</a>
-                            </li>
-                          {% endif %}
-                        {% else %}
-                          <li class="nav-item m-2">
-                            <a class="nav-link active" aria-current="page" href="{% url 'login' %}">Entrar</a>
-                          </li>
-                          <li class="nav-item m-2 me-3">
-                            <a class="nav-link active btn btn-outline-dark text-white rounded-pill btn-md" aria-current="page" href="{% url 'criar_conta' %}">Criar Conta</a>
-                          </li> 
-                        {% endif %}
-                        {% if user.is_authenticated %}
-                          {% if user.is_juridico %}
-                            <li class="nav-item m-2">
-                              <a class="nav-link active" aria-current="page" href="{% url 'perfil' user.id %}">{{user}}</a>
-                            </li>
-                          {% endif %}
-                          <li class="nav-item m-2">
-                            <a class="nav-link active" aria-current="page" href="{% url 'logout' %}">Sair</a>
-                          </li>
-                        {% endif %}
-                        </div>                       
-                    </ul>
-                </div>
-              </div>              
-            </div>
-        </nav> {% endcomment %}
         <nav class="navbar navbar-expand-lg bg-body-tertiary mh-5 border-bottom border-dark fixed-top">
           <div class="container-fluid">
             <a class="navbar-brand ms-5" href="#">
@@ -174,16 +124,15 @@
                     </li> 
                   {% endif %}
                   {% if user.is_authenticated %}
-                    <li class="nav-item dropdown">
+                    <li class="nav-item dropdown mt-2">
                       <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Mais Opções
+                        Configurações
                       </a>
                       <ul class="dropdown-menu dropstart me-2">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
                         {% if user.is_juridico %}
-                          <li><a class="dropdown-item" href="{% url 'perfil' user.id %}">{{user}}n</a></li>
-                        {% endif %}
-                        <li><hr class="dropdown-divider"></li>
+                          <li><a class="dropdown-item" href="{% url 'perfil' user.id %}">{{user}}</a></li>
+                          <li><hr class="dropdown-divider"></li>
+                        {% endif %}                        
                         <li><a class="dropdown-item" href="{% url 'logout' %}">Sair</a></li>
                       </ul>
                     </li>
@@ -245,9 +194,6 @@
             <div class="footer-copyright text-center py-3">© 2021 Camila Adriana|GomesMilla</div>
         </footer>       
       </footer>
-
-   
-
     
     <script>
         $(document).ready(function() {
