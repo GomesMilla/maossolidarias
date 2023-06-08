@@ -3,24 +3,8 @@
 {% load bootstrap %}
 {% block conteudo %}
 
-<style>
-    .top{
-        margin-top: 10%;
-    }
-    .tituloIndex{
-        margin-top: 10%;
-        font-family: 'Fira Sans', sans-serif;
-        font-size: 35px;
-    }
-    .form-group {
-        margin-bottom: 15px;
-    }
-    .center{
-        align-itens: center
-    }
-</style>
     <div class="container top text-center">
-        <p class="tituloIndex">Login</p>
+        <p class="tituloIndexcadastro">Login</p>
         <form role="form" method="post" class="d-flex justify-content-center">
             {% csrf_token %}    
             <div class="col col-lg-6">
