@@ -18,7 +18,7 @@
     <script src="{% static 'js/jquery.mask.js' %}"></script>
 
     <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/custom.js'%}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script type="text/javascript" src="{% static 'js/jquery-3.2.1.min.js'%}"></script>
     <script type="text/javascript" src="{% static 'js/jquery.mask.min.js'%}"></script>
     <script src="https://kit.fontawesome.com/2cbdb08e7a.js" crossorigin="anonymous"></script>
@@ -90,7 +90,7 @@
     {% endif %}
     <header>
         <!-- Nav para aparelhos maiores -->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light mh-5 border-bottom border-dark fixed-top">
+        {% comment %} <nav class="navbar navbar-expand-lg navbar-light bg-light mh-5 border-bottom border-dark">
             <div class="container-fluid me-5 ms-5">
               <a class="navbar-brand" href="#">
                 <img src="{% static 'images/WhatsApp Image 2023-06-05 at 19.43.02.jpeg' %}" alt="Imagem da logo" width="60" height="50">
@@ -137,6 +137,61 @@
                 </div>
               </div>              
             </div>
+        </nav> {% endcomment %}
+        <nav class="navbar navbar-expand-lg bg-body-tertiary mh-5 border-bottom border-dark fixed-top">
+          <div class="container-fluid">
+            <a class="navbar-brand ms-5" href="#">
+              <img src="{% static 'images/WhatsApp Image 2023-06-05 at 19.43.02.jpeg' %}" alt="Imagem da logo" width="60" height="50">
+            </a>
+            <button class="navbar-toggler ms-5" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="d-flex justify-content-end">
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-5 mb-2 mb-lg-0">
+                  <li class="nav-item dropdown m-2">
+                    <li class="nav-item m-2">
+                      <a class="nav-link active" aria-current="page" href="{% url 'introducao' %}">Introdução</a>
+                  </li>
+                  <li class="nav-item m-2">
+                    <a class="nav-link active" aria-current="page" href="{% url 'objetivo' %}">Objetivos</a>
+                  </li>
+                  <li class="nav-item m-2">
+                    <a class="nav-link active" aria-current="page" href="{% url 'solicitacoes' %}">Solicitações</a>
+                  </li>
+                  {% if user.is_authenticated %}
+                      {% if user.is_juridico %}
+                          <li class="nav-item m-2">
+                            <a class="nav-link active" aria-current="page" href="{% url 'pedir_doacao' %}">Pedir Doação</a>
+                          </li>
+                      {% endif %}
+                  {% else %}
+                    <li class="nav-item m-2">
+                      <a class="nav-link active" aria-current="page" href="{% url 'login' %}">Entrar</a>
+                    </li>
+                    <li class="nav-item m-2 me-3">
+                      <a class="nav-link active btn btn-outline-dark text-white rounded-pill btn-md pe-2 ps-2" aria-current="page" href="{% url 'criar_conta' %}">Criar Conta</a>
+                    </li> 
+                  {% endif %}
+                  {% if user.is_authenticated %}
+                    <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Mais Opções
+                      </a>
+                      <ul class="dropdown-menu dropstart me-2">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        {% if user.is_juridico %}
+                          <li><a class="dropdown-item" href="{% url 'perfil' user.id %}">{{user}}n</a></li>
+                        {% endif %}
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{% url 'logout' %}">Sair</a></li>
+                      </ul>
+                    </li>
+                  {% endif %}
+                </ul>
+              </div>
+            </div>
+          </div>
         </nav>
     </header>
 
