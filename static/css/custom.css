@@ -6,6 +6,9 @@
     font-family: 'Fira Sans', sans-serif;
     font-size: 50px;
 }
+.topperfildetail{
+    margin-top: 9%;
+}
 .titulodetailsolicitacao{
     margin-top: 5%;
     font-family: 'Fira Sans', sans-serif;
@@ -34,5 +37,8 @@ a{
         margin-top: 5%;
         font-family: 'Fira Sans', sans-serif;
         font-size: 25px;
+    }
+    .topperfildetail{
+        margin-top: 22%;
     }
 }

@@ -1,24 +1,7 @@
 {% extends 'bases/baselogado.html' %}
 {% load static %}
 {% block conteudo %}
-
-    <style>
-        .top{
-            margin-top: 6%;
-        }
-        .tituloIndex{
-            margin-top: 8%;
-            font-family: 'Fira Sans', sans-serif;
-            font-size: 35px;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        .center{
-            align-itens: center
-        }
-    </style>
-    <div class="top">
+    <div class="topperfildetail">
         <div class="col-md-12 col-12">
             <div class="mt-3">
                 <div class="col-md-12 col-12 profile-back text-center">
@@ -30,30 +13,30 @@
                     <h5 class="mt-2">{{object.nome_completo }}</h5>
                 </div>
                 <div class="d-flex justify-content-center">
-                    <ul class="list-group list-group-horizontal">
+                    <ul class="list-group list-group-horizontal-lg">
                         <li class="list-group-item">CNPJ: {{object.cnpj|default:"Não Informado" }}</li>
                         <li class="list-group-item">Razão Social: {{object.razao_social|default:"Não Informado" }}</li>
                         <li class="list-group-item">E-mail: {{object.nome_completo|default:"Não Informado" }}</li>
                     </ul> 
                 </div>
                 <div class="d-flex justify-content-center mt-2">
-                    <ul class="list-group list-group-horizontal">
+                    <ul class="list-group list-group-horizontal-lg">
                         <li class="list-group-item">E-mail extra: {{object.email_extra|default:"Não Informado" }}</li>
                         <li class="list-group-item">Telefone: {{object.telefone_contato|default:"Não Informado" }}</li>
                         <li class="list-group-item">Telefone Extra: {{object.telefone_contato_extra|default:"Não Informado" }}</li>
                     </ul> 
                 </div>
                 <div class="d-flex justify-content-center mt-2">
-                    <ul class="list-group list-group-horizontal">
+                    <ul class="list-group list-group-horizontal-lg">
                         <li class="list-group-item">CEP: {{object.cep|default:"Não Informado" }}</li>
-                        <li class="list-group-item">Cidade: {{object.cep|default:"Não Informado" }}</li>
+                        <li class="list-group-item">Cidade: {{object.cidade|default:"Não Informado" }}</li>
                         <li class="list-group-item">Bairro: {{object.bairro|default:"Não Informado" }}</li>
                         <li class="list-group-item">Rua: {{object.rua|default:"Não Informado" }}</li>
                         <li class="list-group-item">Número: {{object.numero|default:"Não Informado" }}</li>
                     </ul> 
                 </div>
                 <div class="d-flex justify-content-center mt-2">
-                    <ul class="list-group list-group-horizontal">
+                    <ul class="list-group list-group-horizontal-lg">
                         <li class="list-group-item">Link Página Extra: {{object.linkdoperfil|default:"Não Informado" }}</li>
                     </ul> 
                 </div>
@@ -62,12 +45,16 @@
                 </div>
                 {% if list_solicitacoes %}
                     <div class="container mt-5">
-                        <p class="tituloIndex">Mais Solicitações</p>
+                        <p class="titulodetailsolicitacao">Mais Solicitações</p>
                         <div class="row row-cols-12 row-cols-md-3 g-4 align-items-stretch">
                             {% for solcitacao in list_solicitacoes %}
                                 <div class="col">
-                                    <div class="card p-2 h-100">
-                                        <img src="{{solcitacao.fotoImagem.url}}" alt="{{solcitacao.titulo}}" width="400" height="354">
+                                    <div class="card p-2 h-70">
+                                        {% if solcitacao.fotoImagem %}
+                                        <img src="{{solcitacao.fotoImagem.url}}" alt="{{solcitacao.titulo}}" width="100%" height="50%">
+                                        {% else %}
+                                            <img src="{% static 'images/undraw_not_found_re_bh2e.svg' %}" alt="{{solcitacao.titulo}}" width="100%" height="50%">
+                                        {% endif %}
                                         <div class="card-body">
                                             <h5 class="card-title">{{solcitacao.titulo}}</h5>
                                             <a href="{% url 'perfil' solcitacao.usuario.id %}" class="text-muted">{{solcitacao.usuario.nome_completo}}</a>
