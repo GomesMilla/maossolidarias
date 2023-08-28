@@ -81,6 +81,25 @@ class PerfilDetailView(DetailView):
         
         return context
 
+class PainelAdministrativo(DetailView):
+    model = User
+    template_name = 'users/painel-administrativo.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        object_id = self.kwargs['pk']
+        object_user = User.objects.get(pk=object_id)
+        list_solicitacoes = PedirDoacao.objects.filter(usuario=object_user)
+        list_solicitacoes_abertas = PedirDoacao.objects.filter(usuario=object_user, is_active=False)
+        list_solicitacoes_inativas = PedirDoacao.objects.filter(usuario=object_user, is_active=True)
+        
+        context['object'] = object_user
+        context['list_solicitacoes'] = list_solicitacoes
+        context['list_solicitacoes_abertas'] = list_solicitacoes_abertas
+        context['list_solicitacoes_inativas'] = list_solicitacoes_inativas
+        
+        return context
+
 
 def ViewLogout(request):
     logout(request)
