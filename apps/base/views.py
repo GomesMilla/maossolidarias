@@ -71,8 +71,25 @@ class SolicitacoesPorCategoria(DetailView):
         context['list_solicitacoes'] = PedirDoacao.objects.filter(is_active=True, tipo=categoria)
         context['list_categorias'] = CategoriaDoacao.objects.all()
         context['locategoriaja'] = categoria
+        ip = get_client_ip(self.request)
+        print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+        print(ip)
+        user_ip = self.request.META.get('REMOTE_ADDR')
+        print(user_ip)
+        print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
         return context
 
 class SolicitacaoDetailView(DetailView):
     model = PedirDoacao
     template_name = 'doacao/solicitacaodetail.html'
+
+
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[-1].strip()
+    elif request.META.get('HTTP_X_REAL_IP'):
+        ip = request.META.get('HTTP_X_REAL_IP')
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
