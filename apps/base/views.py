@@ -13,8 +13,15 @@ from django.contrib.auth.views import LogoutView
 class GoalView(TemplateView):
     template_name = "presentation/objetivo.html"
 
-class IntroductionView(TemplateView):
+class IntroductionView(ListView):
+    model = PedirDoacao
     template_name = "presentation/introduction.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["now"] = timezone.now()
+        context['list_solicitacoes'] = PedirDoacao.objects.filter(is_active=True)
+        return context
 
 class PedirDoacaoCreateView(CreateView):
     model = PedirDoacao
