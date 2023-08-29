@@ -3,27 +3,52 @@
 {% block conteudo %}
 
 <body>
-    <div class="container">
-        <p class="tituloIndex">Introdução</p>
-        <p class="fs-5 fw-bolder text-muted">“Doações significa lutar”</p>
-        <div class="text-justify">
-            <p style="text-align: justify;">
-                O ano de 2001 foi designado pela Organização das Nações Unidas (ONU) como o Ano Internacional do Voluntariado, com o objetivo de promover discussões sobre o tema e valorizar a participação da sociedade civil no enfrentamento dos diversos desafios sociais que afetam várias nações. No Brasil, segundo o Artigo 1º da Lei nº 9.608, de 18 de fevereiro de 1998, o serviço voluntário é definido como uma atividade não remunerada realizada por pessoas físicas em entidades públicas de qualquer natureza ou instituições privadas sem fins lucrativos, que tenham objetivos cívicos, culturais, educacionais, científicos, recreativos ou de assistência à pessoa. Essas iniciativas, juntamente com os inúmeros problemas sociais enfrentados pelo Brasil, justificam o atual período de valorização e expansão da sociedade civil, com o surgimento de novas organizações sociais, um aumento no número de voluntários e a criação de mais espaços para a prática do voluntariado nas mais diversas áreas da sociedade (SELLI; GARRAFA, 2005).
-            </p>
-            <p style="text-align: justify;">
-                As tecnologias digitais, desde sua emergência no século XXI, têm se tornado cada vez mais aliadas em diversos aspectos do cotidiano humano. Segundo Fé e Moura (2008), estamos vivendo uma revolução digital, na qual dispositivos móveis, como telefones celulares e tablets, juntamente com as tecnologias móveis, como as redes de conexão sem fio, tornaram-se ferramentas convergentes para a maioria das necessidades humanas.            
-            </p>
-            <p style="text-align: justify;">
-                As doações realizadas de forma virtual pela internet representam o próximo estágio de digitalização e estão ganhando impulso devido à força e disseminação das redes sociais. Um exemplo disso é a plataforma Vakinha, de financiamento coletivo, que surgiu de forma modesta em 2009 no Brasil e atingiu um marco histórico em 2018, arrecadando $50 milhões e criando 150 mil "vaquinhas". De acordo com Nicolle Stad, criadora da Inti, uma plataforma de gestão, CRM, BI, ingressos, inscrições para cursos e doações, as doações para organizações estão aumentando: "Quando o comércio online começou, havia um certo nível de desconfiança. Cada vez mais, os brasileiros estão se familiarizando com o consumo digital, e isso também se reflete nas doações" (PAMPLONA, 2019).           
-            </p>
-            <p style="text-align: justify;">
-                Uma pesquisa da revista Brasil Giving Report (CAF, 2018) revelou que, de 1022 pessoas entrevistadas no Brasil entre 2017 e 2018, 57% fariam mais doações se tivessem mais dinheiro, sendo que a doação em dinheiro é um dos métodos mais utilizados (68%). A pesquisa também identificou que a principal razão para as pessoas realizarem doações é "porque as faz sentir bem", seguida por "preocupação com a causa" e "desejo de ajudar as pessoas menos favorecidas". Fazer uma doação é um ato cidadão que contribui para somar esforços em prol de uma sociedade melhor. Nesse contexto, é importante ressaltar que as doações não se limitam apenas ao dinheiro, mas englobam diversas outras formas de contribuição. Esta proposta tem como objetivo promover um maior engajamento cívico para a causa do voluntariado, buscando destacar as várias possibilidades de doação, além de destacar a importância do uso da tecnologia para a realização de ações nobres.          
-            </p>
-            <p style="text-align: justify;">
-                Dessa forma, propomos  auxiliar as instituições da cidade de Tres Corações, visando  viabilizar campanhas e ações de doação voltadas para indivíduos em situação de vulnerabilidade social, independentemente de ocorrências de calamidades, por meio do desenvolvimento de um site. Sendo assim, esse projeto tem como objetivo oferecer uma solução para promover ações sociais de caridade, por meio da criação de campanhas para arrecadação de recursos materiais ou serviços para instituições necessitadas 
-                Dessa forma, busca-se estimular a participação da sociedade civil, ampliando o alcance das ações de voluntariado e proporcionando um meio prático e eficiente para a realização de doações e o engajamento com causas humanitárias.                       
-            </p>
-        </div>       
+    <div class="container topobjetivo">
+        <div id="carouselExampleCaptions" class="carousel slide">
+            <div class="carousel-indicators">
+              <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+              <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+              <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+                {% for solcitacao in list_solicitacoes %}
+                    {% if forloop.first %}
+                        <div class="carousel-item active">
+                            {% if solcitacao.fotoImagem %}
+                                <img src="{{solcitacao.fotoImagem.url}}" class="d-block w-100" alt="..." class="rounded">
+                            {% else %}
+                                <img src="{% static 'images/undraw_not_found_re_bh2e.svg' %}" class="d-block w-100 img-thumbnail" alt="..." class="rounded">
+                            {% endif %}
+                            <div class="carousel-caption d-none d-md-block text-bg-secondary">
+                                <h5>{{solcitacao.titulo}}</h5>
+                                <p>{{solcitacao.resumo|slice:":255"}}</p>
+                            </div>
+                        </div> 
+                    {% else %}
+                        <div class="carousel-item">
+                            {% if solcitacao.fotoImagem %}
+                                <img src="{{solcitacao.fotoImagem.url}}" class="d-block w-100 max-" alt="..." class="rounded">
+                            {% else %}
+                                <img src="{% static 'images/undraw_not_found_re_bh2e.svg' %}" class="d-block w-100 img-thumbnail" alt="..." class="rounded">
+                            {% endif %}
+                            <div class="carousel-caption d-none d-md-block text-bg-secondary">
+                                <h5>{{solcitacao.titulo}}</h5>
+                                <p>{{solcitacao.resumo|slice:":255"}}</p>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}  
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+        
     </div>
 </body>
 
