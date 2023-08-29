@@ -1,7 +1,8 @@
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from django.views.generic import TemplateView
-from django.views.generic import CreateView
-from .models import PedirDoacao
+from django.views.generic import CreateView, UpdateView
+from .models import PedirDoacao, CategoriaDoacao
 from .forms import PedirDoacaoForm
 from users.models import User
 from django.views.generic import ListView
@@ -36,14 +37,18 @@ class PedirDoacaoCreateView(CreateView):
         form.instance.is_active = True          
         return super().form_valid(form)
 
-# class ArticleDetailView(DetailView):
-#     model = Article
+class PedirDoacaolUpdate(UpdateView):
+    form_class = PedirDoacaoForm
+    model = PedirDoacao
+    template_name = 'doacao/pedirdoacao.html'
+    success_url = reverse_lazy('solicitacoes')
 
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context["now"] = timezone.now()
-#         return context
-
+    def form_valid(self, form):
+        user = self.request.user
+        objuser = User.objects.get(pk=user.id)    
+        form.instance.usuario = user
+        form.instance.is_active = True          
+        return super().form_valid(form)
 
 class SolicitacoesListView(ListView):
     model = PedirDoacao
@@ -53,6 +58,19 @@ class SolicitacoesListView(ListView):
         context = super().get_context_data(**kwargs)
         context["now"] = timezone.now()
         context['list_solicitacoes'] = PedirDoacao.objects.filter(is_active=True)
+        context['list_categorias'] = CategoriaDoacao.objects.all()
+        return context
+
+class SolicitacoesPorCategoria(DetailView):
+    model = CategoriaDoacao
+    template_name = 'doacao/list_solicitacoes.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(SolicitacoesPorCategoria, self).get_context_data(**kwargs)
+        categoria = CategoriaDoacao.objects.get(pk=self.kwargs.get('pk'))
+        context['list_solicitacoes'] = PedirDoacao.objects.filter(is_active=True, tipo=categoria)
+        context['list_categorias'] = CategoriaDoacao.objects.all()
+        context['locategoriaja'] = categoria
         return context
 
 class SolicitacaoDetailView(DetailView):

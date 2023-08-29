@@ -51,9 +51,9 @@
                                 <div class="col">
                                     <div class="card p-2 h-70">
                                         {% if solcitacao.fotoImagem %}
-                                        <img src="{{solcitacao.fotoImagem.url}}" alt="{{solcitacao.titulo}}" width="100%" height="50%">
+                                        <img src="{{solcitacao.fotoImagem.url}}" alt="{{solcitacao.titulo}}" class="card-img-top" width="300" height="300">
                                         {% else %}
-                                            <img src="{% static 'images/undraw_not_found_re_bh2e.svg' %}" alt="{{solcitacao.titulo}}" width="100%" height="50%">
+                                            <img src="{% static 'images/undraw_not_found_re_bh2e.svg' %}" alt="{{solcitacao.titulo}}" class="card-img-top" width="300" height="300">
                                         {% endif %}
                                         <div class="card-body">
                                             <h5 class="card-title">{{solcitacao.titulo}}</h5>

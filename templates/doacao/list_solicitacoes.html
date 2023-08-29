@@ -3,31 +3,41 @@
 {% load bootstrap %}
 {% block conteudo %}
 
-    <div class="container">
-        <p class="tituloIndex">Solicitações</p>
-        <div class="row row-cols-12 row-cols-md-3 g-4 align-items-stretch">
-            {% for solcitacao in list_solicitacoes %}
-                <div class="col">
-                    <div class="card p-2 h-70">
-                        {% if solcitacao.fotoImagem %}
-                            <img src="{{solcitacao.fotoImagem.url}}" alt="{{solcitacao.titulo}}" width="100%" height="50%">
-                        {% else %}
-                            <img src="{% static 'images/undraw_not_found_re_bh2e.svg' %}" alt="{{solcitacao.titulo}}" width="100%" height="50%">
-                        {% endif %}
-                        <div class="card-body">
-                            <h5 class="card-title">{{solcitacao.titulo}}</h5>
-                            <a href="{% url 'perfil' solcitacao.usuario.id %}" class="text-muted">{{solcitacao.usuario.nome_completo}}</a>
-                            <br>
-                            <span class="badge rounded-pill text-bg-dark">{{solcitacao.tipo}}</span>
-                            <p class="card-text mt-2">{{solcitacao.resumo|linebreaksbr|truncatechars:100}}</p>
-                            <a href="{% url 'ver_solicitacao' solcitacao.id %}">Ver Mais</a>
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-body-secondary">{{solcitacao.horarioCriacao}}</small>
-                        </div>
-                    </div>                    
+    <div class="ms-4 topobjetivo">
+        <div class="row">
+            <div class="col-md-2 mb-4">
+                <div class="list-group">
+                    {% for categoria in list_categorias %}
+                        <a href="{% url 'solicitacoes_por_categoria' categoria.pk %}" class="list-group-item list-group-item-action">{{categoria.nome}}</a>
+                    {% endfor %}
                 </div>
-            {% endfor %}  
-        </div>        
+            </div>
+            <div class="col-md-10">
+                <div class="row row-cols-1 row-cols-md-3 g-4 align-items-stretch me-2">
+                    {% for solcitacao in list_solicitacoes %}
+                        <div class="col">
+                            <div class="card p-2 h-70">
+                                {% if solcitacao.fotoImagem %}
+                                    <img src="{{solcitacao.fotoImagem.url}}" alt="{{solcitacao.titulo}}" class="card-img-top" width="300" height="300">
+                                {% else %}
+                                    <img src="{% static 'images/undraw_not_found_re_bh2e.svg' %}" alt="{{solcitacao.titulo}}" class="card-img-top" width="300" height="300">
+                                {% endif %}
+                                <div class="card-body">
+                                    <h5 class="card-title">{{solcitacao.titulo}}</h5>
+                                    <a href="{% url 'perfil' solcitacao.usuario.id %}" class="text-muted">{{solcitacao.usuario.nome_completo}}</a>
+                                    <br>
+                                    <a href="{% url 'solicitacoes_por_categoria' solcitacao.tipo.pk %}" class="badge rounded-pill text-bg-dark">{{solcitacao.tipo}}<a>
+                                    <p class="card-text mt-2">{{solcitacao.resumo|linebreaksbr|truncatechars:100}}</p>
+                                    <a href="{% url 'ver_solicitacao' solcitacao.id %}">Ver Mais</a>
+                                </div>
+                                <div class="card-footer">
+                                    <small class="text-body-secondary">{{solcitacao.horarioCriacao}}</small>
+                                </div>
+                            </div>                    
+                        </div>
+                    {% endfor %}  
+                </div>   
+            </div>
+        </div>
     </div>
-{% endblock %} 
+{% endblock %}
