@@ -90,13 +90,16 @@ class PainelAdministrativo(DetailView):
         object_id = self.kwargs['pk']
         object_user = User.objects.get(pk=object_id)
         list_solicitacoes = PedirDoacao.objects.filter(usuario=object_user)
-        list_solicitacoes_abertas = PedirDoacao.objects.filter(usuario=object_user, is_active=False)
-        list_solicitacoes_inativas = PedirDoacao.objects.filter(usuario=object_user, is_active=True)
+        list_solicitacoes_abertas = PedirDoacao.objects.filter(usuario=object_user, is_active=True)
+        list_solicitacoes_inativas = PedirDoacao.objects.filter(usuario=object_user, is_active=False)
         
         context['object'] = object_user
         context['list_solicitacoes'] = list_solicitacoes
         context['list_solicitacoes_abertas'] = list_solicitacoes_abertas
         context['list_solicitacoes_inativas'] = list_solicitacoes_inativas
+        context['qtd_list_solicitacoes'] = list_solicitacoes.count()
+        context['qtd_list_solicitacoes_abertas'] = list_solicitacoes_abertas.count()
+        context['qtd_list_solicitacoes_inativas'] = list_solicitacoes_inativas.count()
         
         return context
 
