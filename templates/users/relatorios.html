@@ -1,0 +1,27 @@
+{% extends 'bases/baselogado.html' %}
+{% load static %}
+{% block conteudo %}
+
+<div class="topperfildetail">
+    <div class="row">
+        <div class="col-md-3 mb-4">
+            <div class="list-group">
+                <a href="#" class="list-group-item list-group-item-action">Relatório Geral</a>
+                <a href="#" class="list-group-item list-group-item-action">Visualização por período</a>
+                <a href="#" class="list-group-item list-group-item-action">Visualização por mês</a>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="card">
+                <h5 class="card-header">{{object}}</h5>
+                <div class="card-body">
+                    <h5 class="card-title">Bem Vindo!</h5>
+                    <p class="card-text">Selecione um tipo de relatório para obter as informações referente a sua solicitação.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %} 
