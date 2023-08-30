@@ -1,5 +1,6 @@
 from django import template
-
+from base.views import get_client_ip
+from base.models import VisualizacaoObjeto,PedirDoacao
 register = template.Library()
 
 
@@ -13,30 +14,20 @@ def registra_acesso_objeto(request, objeto):
 
     else:
         try:
-            classname = objeto.class_name()
-        except AttributeError:
-            # trata contedo via cache
-            if objeto['tipodepost']:
-                classname = 'PostModel'
-
-        try:
             objetoid = objeto.id
             # slug = objeto.slug
         except AttributeError:
             objetoid = objeto['id']
 
         try:
-            owner = request.user
+            ip = get_client_ip(request)
         except AttributeError:
-            owner = request
-
-        if owner.is_anonymous:
-            pass
+            ip = request
         else:
-            model = eval(classname)._meta.model_name  # postmodel
-            app_label = eval(classname)._meta.app_label
-            visualizacao_analytics = VisualizacaoDadosModel(object_id=objetoid, owner=owner,
-                                                            content_type=ContentType.objects.get(
-                                                                model=model, app_label=app_label)
-                                                            )
+            solicitacao = PedirDoacao.objects.get(pk=objetoid)
+            visualizacao_analytics = VisualizacaoObjeto(solicitacao=solicitacao, ip=ip)
             visualizacao_analytics.save()
+
+#como eu quero ser reconhecido no mercado de trabalho e como eu vou ser reconhecido por isso
+#o que eu vendo
+#o que eu quero vender

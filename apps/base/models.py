@@ -34,3 +34,20 @@ class PedirDoacao(models.Model):
 
     def __str__(self):
         return str(self.titulo)
+
+
+class VisualizacaoObjeto(models.Model):
+    solicitacao = models.ForeignKey("PedirDoacao", on_delete=models.CASCADE, related_name="solicitacao_visualicao")
+    ip = models.CharField('Endereço de IP', max_length=250)
+    estado = models.CharField('EStado', unique=True, null=True, blank=True, max_length=60)
+    dataHorarioCriacao = models.DateTimeField('Horário de Criação', auto_now_add=True)
+
+
+    class Meta:
+        verbose_name = "Visualização de Solicitação"
+        verbose_name_plural="Visualização de Solicitação"
+        ordering = ['solicitacao']
+
+    def __str__(self):
+        return self.ip
+
