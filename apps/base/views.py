@@ -9,7 +9,7 @@ from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.utils import timezone
 from django.contrib.auth.views import LogoutView
-
+import requests
 
 class GoalView(TemplateView):
     template_name = "presentation/objetivo.html"
@@ -90,3 +90,9 @@ def get_client_ip(request):
     else:
         ip = request.META.get('REMOTE_ADDR')
     return ip
+
+def get_state_from_ip(ip_address):
+    response = requests.get(f'https://ipinfo.io/{ip_address}/json')
+    data = response.json()
+    state = data.get('region') 
+    return state

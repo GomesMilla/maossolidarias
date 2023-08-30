@@ -9,6 +9,7 @@ from django.views.decorators.cache import never_cache
 from django.views.static import serve
 from django.conf import settings
 from django.views.generic import TemplateView
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),

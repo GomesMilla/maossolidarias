@@ -1,5 +1,5 @@
 from django import template
-from base.views import get_client_ip
+from base.views import get_client_ip, get_state_from_ip
 from base.models import VisualizacaoObjeto,PedirDoacao
 register = template.Library()
 
@@ -25,7 +25,9 @@ def registra_acesso_objeto(request, objeto):
             ip = request
         else:
             solicitacao = PedirDoacao.objects.get(pk=objetoid)
-            visualizacao_analytics = VisualizacaoObjeto(solicitacao=solicitacao, ip=ip)
+            state = get_state_from_ip(ip)
+            # testar em produção para ver se funciona
+            visualizacao_analytics = VisualizacaoObjeto(solicitacao=solicitacao, ip=ip, estado=state)
             visualizacao_analytics.save()
 
 #como eu quero ser reconhecido no mercado de trabalho e como eu vou ser reconhecido por isso
