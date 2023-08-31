@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic import CreateView, UpdateView
-from .models import PedirDoacao, CategoriaDoacao
+from .models import PedirDoacao, CategoriaDoacao, VisualizacaoObjeto
 from .forms import PedirDoacaoForm
 from users.models import User
 from django.views.generic import ListView
@@ -10,7 +10,10 @@ from django.views.generic.detail import DetailView
 from django.utils import timezone
 from django.contrib.auth.views import LogoutView
 import requests
+import datetime
+import calendar
 
+from datetime import date
 class GoalView(TemplateView):
     template_name = "presentation/objetivo.html"
 
@@ -80,6 +83,28 @@ class SolicitacaoDetailView(DetailView):
 class RelatoriosView(DetailView):
     model = PedirDoacao
     template_name = 'users/relatorios.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(RelatoriosView, self).get_context_data(**kwargs)
+        solicitacao = PedirDoacao.objects.get(pk=self.kwargs.get('pk'))
+        all_acessos = VisualizacaoObjeto.objects.filter(solicitacao=solicitacao)
+        unique_ips = set(item.ip for item in all_acessos)
+        data_atual = date.today()
+        all_acessos_mes = VisualizacaoObjeto.objects.filter(solicitacao=solicitacao, dataHorarioCriacao__month=data_atual.month)
+        unique_ips_mes = set(item.ip for item in all_acessos_mes)
+
+        dict = {}
+        meses_em_portugues = calendar.month_name[1:][::-1]
+        print(meses_em_portugues)
+        for mes in meses_em_portugues:
+            all_acessos_mes = VisualizacaoObjeto.objects.filter(solicitacao=solicitacao, dataHorarioCriacao__month=mes)
+            unique_ips_mes = set(item.ip for item in all_acessos_mes)
+
+        context['qtd_list_acessos'] = len(unique_ips)
+        context['qtd_list_acessos_mes'] = len(unique_ips_mes)
+
+
+        return context
 
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')

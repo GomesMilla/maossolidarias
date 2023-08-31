@@ -2,30 +2,31 @@
 {% load static %}
 {% block conteudo %}
 
-<div class="topobjetivo">
-    <div class="ms-3">
-        <h3>Relatórios</h3>
+<div class="topperfildetail">
+    <div class="container">
+        <h3>Relatório sobre a solicitação '{{object}}'</h3>
         <hr>
-    </div>
-    <div class="row p-3">
-        <div class="col-md-3 mb-4">
-            <div class="list-group">
-                <a href="#" class="list-group-item list-group-item-action">Relatório Geral</a>
-                <a href="#" class="list-group-item list-group-item-action">Visualização por período</a>
-                <a href="#" class="list-group-item list-group-item-action">Visualização por mês</a>
+        <div class="row text-center">
+            <div class="col-sm-6">
+                <div class="card border-primary">
+                    <div class="card-body">
+                        <h5 class="card-title">Visualizações no mês</h5>
+                        <h1 class="card-text">{{qtd_list_acessos_mes}}</h1>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="col-md-9">
-            <div class="card">
-                <h5 class="card-header">{{object}}</h5>
-                <div class="card-body">
-                    <h5 class="card-title">Bem Vindo!</h5>
-                    <p class="card-text">Selecione um tipo de relatório para obter as informações referente a sua solicitação.</p>
+            <div class="col-sm-6 ">
+                <div class="card border-danger">
+                    <div class="card-body">
+                        <h5 class="card-title">Visualização total</h5>
+                        <h1 class="card-text">{{qtd_list_acessos}}</h1>
+                    </div>
                 </div>
             </div>
         </div>
+
+
     </div>
 </div>
-
 
 {% endblock %} 
