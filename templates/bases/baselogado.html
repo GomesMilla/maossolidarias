@@ -92,6 +92,7 @@
                       <ul class="dropdown-menu dropstart me-2">
                         {% if user.is_juridico %}
                           <li><a class="dropdown-item" href="{% url 'perfil' user.id %}">{{user}}</a></li>
+                          <li><a class="dropdown-item" href="{% url 'perfil' user.id %}">Editar Perfil</a></li>
                           <li><a class="dropdown-item" href="{% url 'painel_administrativo' user.id %}">Painel Administrativo</a></li>
                           <li><hr class="dropdown-divider"></li>
                         {% endif %}                        

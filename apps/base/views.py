@@ -9,6 +9,7 @@ from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.utils import timezone
 from django.contrib.auth.views import LogoutView
+from dateutil.relativedelta import relativedelta
 import requests
 import datetime
 import calendar
@@ -89,20 +90,44 @@ class RelatoriosView(DetailView):
         solicitacao = PedirDoacao.objects.get(pk=self.kwargs.get('pk'))
         all_acessos = VisualizacaoObjeto.objects.filter(solicitacao=solicitacao)
         unique_ips = set(item.ip for item in all_acessos)
-        data_atual = date.today()
-        all_acessos_mes = VisualizacaoObjeto.objects.filter(solicitacao=solicitacao, dataHorarioCriacao__month=data_atual.month)
+
+        all_acessos_mes = VisualizacaoObjeto.objects.filter(solicitacao=solicitacao, dataHorarioCriacao__month=date.today().month, dataHorarioCriacao__year=date.today().year)
         unique_ips_mes = set(item.ip for item in all_acessos_mes)
 
-        dict = {}
-        meses_em_portugues = calendar.month_name[1:][::-1]
-        print(meses_em_portugues)
-        for mes in meses_em_portugues:
-            all_acessos_mes = VisualizacaoObjeto.objects.filter(solicitacao=solicitacao, dataHorarioCriacao__month=mes)
-            unique_ips_mes = set(item.ip for item in all_acessos_mes)
+        hoje = datetime.datetime.today()
+        mesatual = hoje.month
+        anoatual = hoje.year
+        ultimodia = calendar.monthrange(anoatual, mesatual)[1]
+        inicio_do_mes = hoje.replace(day=1)
+        final_do_mes = inicio_do_mes + relativedelta(months=1, days=-1)
+        dias_do_mes_atual = [datetime.date(anoatual, mesatual, dia) for dia in range(1, ultimodia + 1)]
+        lista_dias_do_mes_atual = [dia.day for dia in dias_do_mes_atual]
 
-        context['qtd_list_acessos'] = len(unique_ips)
-        context['qtd_list_acessos_mes'] = len(unique_ips_mes)
+        lista_dias_visitas = []
+        for dia in dias_do_mes_atual:
+            qs_mes_loop = all_acessos_mes.filter(dataHorarioCriacao__date=dia)
+            totalacessoloop = qs_mes_loop.count()
+            lista_dias_visitas.append(totalacessoloop)
 
+        dict_meses = {}
+        for mes in [1, 2, 3, 4, 5, 6]:
+            mes_do_loop = datetime.datetime.now() - relativedelta(months=mes)
+            inicio_mes_do_loop = mes_do_loop.replace(day=1)
+            final_mes_do_loop = inicio_mes_do_loop + relativedelta(months=1, days=-1)
+            qs_mes_loop = all_acessos.filter(dataHorarioCriacao__gte=inicio_mes_do_loop, dataHorarioCriacao__lte=final_mes_do_loop)
+            totaldeacessos_mes_loop = qs_mes_loop.count()
+            dict_meses["mes" + str(mes)] = mes_do_loop.strftime("%B")
+            dict_meses["mes" + str(mes) + "acessos"] = totaldeacessos_mes_loop
+        
+        context['qtd_list_acessos_total'] = len(all_acessos)
+        context['qtd_list_acessos_total_unicos'] = len(unique_ips)
+        context['qtd_list_acessos_mes_total'] = len(all_acessos_mes)
+        context['qtd_list_acessos_mes_unico'] = len(unique_ips_mes)
+        context['lista_dias_visitas'] = lista_dias_visitas
+        context['dias_do_mes_atual'] = lista_dias_do_mes_atual
+        context['dict_meses'] = dict_meses
+        context['ultimosacessos'] = all_acessos_mes = VisualizacaoObjeto.objects.filter(solicitacao=solicitacao, dataHorarioCriacao__month=date.today().month, dataHorarioCriacao__year=date.today().year)[:10]
+        
 
         return context
 
