@@ -1,0 +1,72 @@
+{% extends 'bases/baselogado.html' %}
+{% load static %}
+{% load bootstrap %}
+{% block conteudo %}
+
+
+<style>
+    .top{
+        margin-top: 9%;
+    }
+    .tituloIndex{
+        margin-top: 2%;
+        font-family: 'Fira Sans', sans-serif;
+        font-size: 30px;
+    }
+    .form-group {
+        margin-bottom: 15px;
+    }
+</style>
+    
+<div class="container top">
+    <div class="row mt-5 card">
+        <h4 class="mb-4 tituloIndex">Editar informações:</h4>
+        <hr>
+        <div class="col-12 col-md-12 col-sm-12">
+            <span class="">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{form.media}}
+                    {{ form|bootstrap }}
+                    <div class="d-grid gap-6 d-md-block mt-3 mb-3 text-center ">
+                        <button class="btn btn-success rounded-pill col-2" id="botao" type="submit">Salvar</button>
+                        <a class="btn btn-danger rounded-pill col-2" href="{% url 'objetivo' %}" >Cancelar</a>
+                    </div>
+                </form>  
+            </span>
+        </div>
+    </div>
+</div>
+<script>
+    $('document').ready(function() {
+        var elemento = document.getElementById("id_imagemperfil");
+        elemento.classList.add("form-control");
+        $("#id_cep").mask("00000-000");
+        $('#id_telefone_contato').mask('(00) 0000-0000');
+        $('#id_telefone_contato_extra').mask('(00) 0000-0000');
+        $('#id_cnpj').mask('00.000.000/0000-00');
+        
+        $("#id_cep").focusout(function(){
+            console.log("aaaaaaaaaaaaaaaaaaaaaa");
+            $.ajax({
+                url: 'https://viacep.com.br/ws/'+$(this).val().replace(".","").replace("-","")+'/json/unicode/',
+                dataType: 'json',
+                success: function(resposta){
+                    if (resposta.erro) {
+                        $("#id_cep").removeClass('valid');
+                        $("#id_cep").addClass('invalid');
+                    }
+                    console.log(resposta);
+                    $("#id_rua").val(resposta.logradouro);                    
+                    $("#id_bairro").val(resposta.bairro);
+                    $("#id_cidade").val(resposta.localidade);
+                    $("#id_estado").val(resposta.uf);       
+                    $("#id_numero").focus();
+                }
+            });
+        });
+    });
+
+</script>
+
+{% endblock %}

@@ -10,12 +10,14 @@ from django.views.static import serve
 from django.conf import settings
 from django.views.generic import TemplateView
 from django.contrib.auth import views as auth_views
+from base.views import IntroductionView
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('users/', include('users.urls')), 
     path('base/', include('base.urls')), 
-    path("", TemplateView.as_view(template_name="presentation/objetivo.html"), name="objetivo"),
+    path("", IntroductionView.as_view(), name="objetivo"),
     path('ckeditor/upload/', login_required(ckeditor_views.upload), name='ckeditor_upload'),
     path('ckeditor/browse/', never_cache(login_required(ckeditor_views.browse)), name='ckeditor_browse'),
 

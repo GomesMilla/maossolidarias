@@ -19,6 +19,12 @@ class PessoaJuridicaForm(forms.ModelForm):
         fields = ['username', 'email', 'nome_completo', 'cnpj', 'razao_social', 'imagemperfil', 'email_extra', 'telefone_contato', 'telefone_contato_extra', 
         'cep','cidade' ,'bairro', 'rua', 'numero', 'complemento', 'paginadoperfil', 'linkdoperfil','password']
 
+class PessoaJuridicaEditarForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'nome_completo', 'cnpj', 'razao_social', 'imagemperfil', 'email_extra', 'telefone_contato', 'telefone_contato_extra', 
+        'cep','cidade' ,'bairro', 'rua', 'numero', 'complemento', 'paginadoperfil', 'linkdoperfil']
+
 class PessoaFisicaForm(forms.ModelForm):
 
     def save(self, commit=True):
@@ -34,3 +40,8 @@ class PessoaFisicaForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username', 'nome_completo', 'email', 'imagemperfil', 'password']
+
+class PessoaFisicaEditarForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['username', 'nome_completo', 'email', 'imagemperfil', 'email', 'email_extra', 'telefone_contato','telefone_contato_extra','paginadoperfil', 'linkdoperfil']

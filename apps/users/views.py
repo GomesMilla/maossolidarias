@@ -1,12 +1,12 @@
 from django.shortcuts import render
-from django.views.generic import CreateView
+from django.views.generic import CreateView, UpdateView
 from users.forms import PessoaJuridicaForm, PessoaFisicaForm
+from base.models import PedirDoacao, CategoriaDoacao, VisualizacaoObjeto
 from users.models import User
 from django.views.generic import TemplateView
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from .forms import *
 from .models import *
@@ -15,34 +15,8 @@ from django.contrib import messages
 import logging
 from django.views.generic.detail import DetailView
 from django.contrib.auth import authenticate, login, logout
-from base.models import PedirDoacao
-
+from django.db.models import Count
 logger = logging.getLogger(__name__)
-
-
-class PessoaJuridicaCreateView(CreateView):
-    model = User
-    form_class = PessoaJuridicaForm
-    template_name = 'users/createaccount.html'
-    success_url = '/users/login'
-
-    def form_valid(self, form):
-        form.instance.is_juridico = True        
-        return super().form_valid(form)
-
-class PessoaFisicaCreateView(CreateView):
-    model = User
-    form_class = PessoaFisicaForm
-    template_name = 'users/createaccountfisica.html'
-    success_url = '/users/login'
-
-    def form_valid(self, form):
-        form.instance.is_juridico = False        
-        return super().form_valid(form)
-
-class IntroductionView(TemplateView):
-    template_name = "presentation/creataccountinitial.html"
-
 
 def ViewLogin(request):
     if request.user.is_authenticated:
@@ -66,9 +40,54 @@ def ViewLogin(request):
     return render(request, 'users/login.html', context)
 
 
+def ViewLogout(request):
+    logout(request)
+    return redirect('/')
+
+class PessoaJuridicaCreateView(CreateView):
+    model = User
+    form_class = PessoaJuridicaForm
+    template_name = 'users/juridico/createaccount.html'
+    success_url = '/users/login'
+
+    def form_valid(self, form):
+        form.instance.is_juridico = True        
+        return super().form_valid(form)
+
+class PessoaJuridicaUpdateView(UpdateView):
+    model = User
+    form_class = PessoaJuridicaEditarForm
+    template_name = 'users/juridico/atualizar-conta-juridico.html'
+    success_url = '/users/login'
+
+    def form_valid(self, form):
+        form.instance.is_juridico = True        
+        return super().form_valid(form)
+
+
+class PessoaFisicaCreateView(CreateView):
+    model = User
+    form_class = PessoaFisicaForm
+    template_name = 'users/fisica/createaccountfisica.html'
+    success_url = '/users/login'
+
+    def form_valid(self, form):
+        form.instance.is_juridico = False        
+        return super().form_valid(form)
+
+class PessoaFisicaUpdateView(UpdateView):
+    model = User
+    form_class = PessoaFisicaEditarForm
+    template_name = 'users/fisica/atualizar-conta-fisica.html'
+    success_url = '/users/login'
+
+    def form_valid(self, form):
+        form.instance.is_juridico = False        
+        return super().form_valid(form)
+
 class PerfilDetailView(DetailView):
     model = User
-    template_name = 'users/perfildetail.html'
+    template_name = 'users/juridico/perfildetail.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -81,9 +100,33 @@ class PerfilDetailView(DetailView):
         
         return context
 
+
+class PerfilDetailView(DetailView):
+    model = User
+    template_name = 'users/fisica/perfildetail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        object_id = self.kwargs['pk']
+        object_user = User.objects.get(pk=object_id)
+        visualizacoes_por_solicitacao = VisualizacaoObjeto.objects.values('solicitacao').annotate(
+            total_visualizacoes=Count('solicitacao')
+        ).order_by('-total_visualizacoes')[:3]
+  
+        # Obtenha as solicitações correspondentes às visualizações mais acessadas
+        solicitacoes_mais_acessadas = PedirDoacao.objects.filter(
+            pk__in=[item['solicitacao'] for item in visualizacoes_por_solicitacao]
+        )
+        context['solicitacoes_mais_acessadas'] = solicitacoes_mais_acessadas
+        context['object'] = object_user
+        
+        return context
+
+
+
 class PainelAdministrativo(DetailView):
     model = User
-    template_name = 'users/painel-administrativo.html'
+    template_name = 'users/juridico/painel-administrativo.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -103,7 +146,3 @@ class PainelAdministrativo(DetailView):
         
         return context
 
-
-def ViewLogout(request):
-    logout(request)
-    return redirect('/')

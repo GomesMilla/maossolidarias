@@ -10,6 +10,7 @@ from django.views.generic.detail import DetailView
 from django.utils import timezone
 from django.contrib.auth.views import LogoutView
 from dateutil.relativedelta import relativedelta
+from django.db.models import Count
 import requests
 import datetime
 import calendar
@@ -25,7 +26,17 @@ class IntroductionView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["now"] = timezone.now()
-        context['list_solicitacoes'] = PedirDoacao.objects.filter(is_active=True)
+
+        visualizacoes_por_solicitacao = VisualizacaoObjeto.objects.values('solicitacao').annotate(
+            total_visualizacoes=Count('solicitacao')
+        ).order_by('-total_visualizacoes')[:3]
+  
+        # Obtenha as solicitações correspondentes às visualizações mais acessadas
+        solicitacoes_mais_acessadas = PedirDoacao.objects.filter(
+            pk__in=[item['solicitacao'] for item in visualizacoes_por_solicitacao]
+        )
+        context['list_solicitacoes'] = PedirDoacao.objects.filter(is_active=True) 
+        context['solicitacoes_mais_acessadas'] = solicitacoes_mais_acessadas
         return context
 
 class PedirDoacaoCreateView(CreateView):
@@ -126,7 +137,7 @@ class RelatoriosView(DetailView):
         context['lista_dias_visitas'] = lista_dias_visitas
         context['dias_do_mes_atual'] = lista_dias_do_mes_atual
         context['dict_meses'] = dict_meses
-        context['ultimosacessos'] = all_acessos_mes = VisualizacaoObjeto.objects.filter(solicitacao=solicitacao, dataHorarioCriacao__month=date.today().month, dataHorarioCriacao__year=date.today().year)[:10]
+        context['ultimosacessos'] = VisualizacaoObjeto.objects.filter(solicitacao=solicitacao).order_by('-dataHorarioCriacao')[:10]
         
 
         return context

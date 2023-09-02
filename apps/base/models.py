@@ -7,10 +7,10 @@ class CategoriaDoacao(models.Model):
     resumo = models.CharField('Resumo', max_length=250)
     dataHorarioCriacao = models.DateTimeField('Horário de Criação', auto_now_add=True)
 
-
     class Meta:
         verbose_name = "Categoria de doação"
         verbose_name_plural="Categorias de doação"
+        app_label = 'base'
         ordering = ['nome']
 
     def __str__(self):
@@ -26,10 +26,12 @@ class PedirDoacao(models.Model):
     usuario = models.ForeignKey("users.User", on_delete=models.CASCADE, related_name="autor")
     horarioCriacao = models.DateTimeField('Horário de Criação', auto_now_add=True)
     is_active = models.BooleanField(default=False)
+    motivo_inativacao = models.TextField('Informe um motivo pelo qual está inativando a solicitação', null=True, blank=True)
 
     class Meta:
         verbose_name = "Pedir Doacao"
         verbose_name_plural="Pedir Doacao"
+        app_label = 'base'
         ordering = ['titulo']
 
     def __str__(self):
@@ -46,6 +48,7 @@ class VisualizacaoObjeto(models.Model):
     class Meta:
         verbose_name = "Visualização de Solicitação"
         verbose_name_plural="Visualização de Solicitação"
+        app_label = 'base'
         ordering = ['solicitacao']
 
     def __str__(self):

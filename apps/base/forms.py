@@ -5,4 +5,4 @@ class PedirDoacaoForm(forms.ModelForm):
 
     class Meta:
         model = PedirDoacao
-        exclude = ('slug', 'horarioCriacao', 'is_active', 'usuario')
+        exclude = ('slug', 'horarioCriacao', 'is_active', 'usuario', 'motivo_inativacao')
