@@ -103,6 +103,21 @@ class PerfilDetailView(DetailView):
 
 class PerfilDetailView(DetailView):
     model = User
+    template_name = 'users/juridico/perfildetail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        object_id = self.kwargs['pk']
+        object_user = User.objects.get(pk=object_id)
+        list_solicitacoes = PedirDoacao.objects.filter(usuario=object_user)
+  
+        context['list_solicitacoes'] = list_solicitacoes
+        context['object'] = object_user
+        
+        return context
+
+class PerfilDetailFisicaView(DetailView):
+    model = User
     template_name = 'users/fisica/perfildetail.html'
 
     def get_context_data(self, **kwargs):
@@ -121,8 +136,6 @@ class PerfilDetailView(DetailView):
         context['object'] = object_user
         
         return context
-
-
 
 class PainelAdministrativo(DetailView):
     model = User

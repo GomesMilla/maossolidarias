@@ -18,6 +18,6 @@ urlpatterns = [
     # Físico
     path("criar-conta-fisico/", PessoaFisicaCreateView.as_view(), name="criar_conta_fisico"),
     path("conta-fisica/<int:pk>/edit", login_required(PessoaFisicaUpdateView.as_view()), name="atualizar_conta_fisica"),
-    path("perfil/<int:pk>/fisica", PerfilDetailView.as_view(), name="perfil_pessoa_fisica"),
+    path("perfil/<int:pk>/fisica", PerfilDetailFisicaView.as_view(), name="perfil_pessoa_fisica"),
 
 ]

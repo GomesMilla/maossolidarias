@@ -62,9 +62,9 @@
                                     <td>{{solicitacao.titulo}}</td>
                                     <td>{{solicitacao.usuario}} - {{solicitacao.horarioCriacao}}</td>
                                     <td>
-                                        <div class="d-grid gap-2 d-md-block">
+                                        <div class="d-grid gap-2 d-md-block">                                            
                                             <a href="{% url 'editar_solicitacao' solicitacao.pk %}" class="btn btn-primary" type="button">Editar</a>
-                                            <button class="btn btn-danger" type="button">Inativar</button>
+                                            <a href="{% url 'inativar_solicitacao' solicitacao.pk %}" class="btn btn-danger">Inativar</a>
                                             <a href="{% url 'relatorios' solicitacao.pk %}" class="btn btn-success" type="button">Relatório</a>
                                         </div>
                                     </td>

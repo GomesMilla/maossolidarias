@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic import CreateView, UpdateView
+from django.views.generic import DeleteView
+from django.http import HttpResponseRedirect, HttpResponse, Http404
 from .models import PedirDoacao, CategoriaDoacao, VisualizacaoObjeto
 from .forms import PedirDoacaoForm
 from users.models import User
@@ -64,6 +66,15 @@ class PedirDoacaolUpdate(UpdateView):
         form.instance.usuario = user
         form.instance.is_active = True          
         return super().form_valid(form)
+
+class DesativarSolicitacao(DeleteView):
+    model = PedirDoacao
+    success_url = reverse_lazy('solicitacoes')
+    template_name = 'doacao/inativar_solicitacao.html'
+
+    def delete(self, request, *args, **kwargs):
+        self.get_object().delete(inativar=True)
+        return HttpResponseRedirect(self.success_url)
 
 class SolicitacoesListView(ListView):
     model = PedirDoacao
