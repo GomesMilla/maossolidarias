@@ -3,19 +3,18 @@
 {% load bootstrap %}
 {% block conteudo %}
 
-<div class="container">
-    <p class="tituloIndexcadastro">Pedir Doação</p>
+<div class="container topperfildetail">
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        <div class="alert alert-success" role="alert">
+        <div class="alert alert-danger" role="alert">
             <h4 class="alert-heading">Atenção!</h4>
-            <p>Voce tem certeza que deseja desativar a solicitação {{object}}</p>
+            <p>Você tem certeza que deseja desativar a solicitação {{object}}</p>
             <hr>
-            <p class="mb-0">Ao confirmar a solicitação sera inativa e auticamente deixará de ser exibida em nossas listagem de solicitações.</p>
+            <p class="mb-0">Ao confirmar a solicitação será inativa e auticamente deixará de ser exibida em nossas listagem de solicitações.</p>
         </div>
         <div class="d-grid gap-2 d-md-block">
-            <button class="btn btn-outline-danger">Cancelar</button>
-            <button class="btn btn-outline-success" type="submit">Confirmar</button>
+            <button class="btn btn-success" type="submit">Confirmar</button>
+            <button class="btn btn-danger">Cancelar</button>
           </div>
     </form>  
 </div>
