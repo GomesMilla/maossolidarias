@@ -35,7 +35,8 @@ class IntroductionView(ListView):
   
         # Obtenha as solicitações correspondentes às visualizações mais acessadas
         solicitacoes_mais_acessadas = PedirDoacao.objects.filter(
-            pk__in=[item['solicitacao'] for item in visualizacoes_por_solicitacao]
+            pk__in=[item['solicitacao'] for item in visualizacoes_por_solicitacao],
+            is_active=True  # Adicione esta cláusula para filtrar apenas as ativas
         )
         context['list_solicitacoes'] = PedirDoacao.objects.filter(is_active=True) 
         context['solicitacoes_mais_acessadas'] = solicitacoes_mais_acessadas
@@ -45,20 +46,21 @@ class PedirDoacaoCreateView(CreateView):
     model = PedirDoacao
     form_class = PedirDoacaoForm
     template_name = 'doacao/pedirdoacao.html'
-    success_url = '/base/objetivo'
 
     def form_valid(self, form):
         user = self.request.user
-        objuser = User.objects.get(pk=user.id)    
+        objuser = User.objects.get(pk=user.id)   
         form.instance.usuario = user
         form.instance.is_active = True          
         return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('ver_solicitacao', kwargs={'pk': self.object.pk})
 
 class PedirDoacaolUpdate(UpdateView):
     form_class = PedirDoacaoForm
     model = PedirDoacao
     template_name = 'doacao/pedirdoacao.html'
-    success_url = reverse_lazy('solicitacoes')
 
     def form_valid(self, form):
         user = self.request.user
@@ -66,15 +68,26 @@ class PedirDoacaolUpdate(UpdateView):
         form.instance.usuario = user
         form.instance.is_active = True          
         return super().form_valid(form)
+    
+    def get_success_url(self):
+        return reverse_lazy('ver_solicitacao', kwargs={'pk': self.object.pk})
 
 class DesativarSolicitacao(DeleteView):
     model = PedirDoacao
-    success_url = reverse_lazy('solicitacoes')
     template_name = 'doacao/inativar_solicitacao.html'
 
-    def delete(self, request, *args, **kwargs):
-        self.get_object().delete(inativar=True)
+    def form_valid(self, form):
+        obj = self.get_object()
+        obj.is_active = False 
+        obj.save()
         return HttpResponseRedirect(self.success_url)
+
+    def get_success_url(self):
+        if self.request.user.is_authenticated:
+            return reverse_lazy('painel_administrativo', kwargs={'pk': self.request.user.id})
+        else:
+            return reverse_lazy('login')
+
 
 class SolicitacoesListView(ListView):
     model = PedirDoacao
@@ -103,7 +116,7 @@ class SolicitacaoDetailView(DetailView):
     model = PedirDoacao
     template_name = 'doacao/solicitacaodetail.html'
 
-class RelatoriosView(DetailView):
+class RelatoriosView(DetailView): 
     model = PedirDoacao
     template_name = 'users/relatorios.html'
 

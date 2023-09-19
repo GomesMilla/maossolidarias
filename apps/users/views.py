@@ -109,7 +109,7 @@ class PerfilDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         object_id = self.kwargs['pk']
         object_user = User.objects.get(pk=object_id)
-        list_solicitacoes = PedirDoacao.objects.filter(usuario=object_user)
+        list_solicitacoes = PedirDoacao.objects.filter(usuario=object_user, is_active=True)
   
         context['list_solicitacoes'] = list_solicitacoes
         context['object'] = object_user

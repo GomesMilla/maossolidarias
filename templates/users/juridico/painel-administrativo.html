@@ -86,6 +86,7 @@
                             <th scope="col">ID</th>
                             <th scope="col">Título</th>
                             <th scope="col">Criado Por</th>
+                            <th scope="col">Ações</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -94,6 +95,11 @@
                                 <th scope="row">{{solicitacao.id}}</th>
                                 <td>{{solicitacao.titulo}}</td>
                                 <td>{{solicitacao.usuario}} - {{solicitacao.horarioCriacao}}</td>
+                                <td>
+                                    <div class="d-grid gap-2 d-md-block">                                           
+                                        <a href="{% url 'relatorios' solicitacao.pk %}" class="btn btn-success" type="button">Relatório</a>
+                                    </div>
+                                </td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -105,7 +111,7 @@
             {% endif %}
             </div>
             <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab" tabindex="0">
-                {% if list_solicitacoes_abertas %}
+                {% if list_solicitacoes %}
                 <table class="table table-hover border text-center">
                     <thead>
                         <tr>
@@ -116,15 +122,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for solicitacao in list_solicitacoes_abertas %}
+                        {% for solicitacao in list_solicitacoes %}
                             <tr>
                                 <th scope="row">{{solicitacao.id}}</th>
                                 <td>{{solicitacao.titulo}}</td>
                                 <td>{{solicitacao.usuario}} - {{solicitacao.horarioCriacao}}</td>
                                 <td>
                                     <div class="d-grid gap-2 d-md-block">
-                                        <a href="{% url 'editar_solicitacao' solicitacao.pk %}" class="btn btn-primary" type="button">Editar</a>
-                                        <button class="btn btn-danger" type="button">Inativar</button>
                                         <button class="btn btn-success" type="button">Relatório</button>
                                     </div>
                                 </td>
