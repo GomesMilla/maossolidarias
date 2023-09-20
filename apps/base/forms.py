@@ -7,8 +7,8 @@ class PedirDoacaoForm(forms.ModelForm):
         model = PedirDoacao
         exclude = ('slug', 'horarioCriacao', 'is_active', 'usuario', 'motivo_inativacao')
 
-class ContatarSolicitacaoForm(forms.Form):
+class ContatarSolicitacaoForm(forms.ModelForm):
 
     class Meta:
         model = ContatarSolicitacao
-        fields = ('__all__')
+        exclude = ('user', 'dataHorarioCriacao')

@@ -5,8 +5,10 @@ from django.views.generic import CreateView, UpdateView
 from django.views.generic import DeleteView
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from .models import PedirDoacao, CategoriaDoacao, VisualizacaoObjeto
-from .forms import PedirDoacaoForm, ContatarSolicitacao
+from .forms import PedirDoacaoForm, ContatarSolicitacaoForm
 from users.models import User
+from django.views.generic import DetailView
+from django.shortcuts import render, redirect
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.utils import timezone
@@ -112,26 +114,36 @@ class SolicitacoesPorCategoria(DetailView):
         context['locategoriaja'] = categoria
         return context
 
+
+
 class SolicitacaoDetailView(DetailView):
     model = PedirDoacao
     template_name = 'doacao/solicitacaodetail.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        print("Mateus esteve aquiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii")
-        context['formulario'] = ContatarSolicitacao()
-        teste = ContatarSolicitacao()
-        print(teste)
+        formulario = ContatarSolicitacaoForm()
+        solicitacao = self.get_object()
+        formulario.fields['solicitacao'].initial = solicitacao
+        context['formulario'] = formulario
         return context
     
     def post(self, request, *args, **kwargs):
-        form = ContatarSolicitacao(request.POST)
+        form = ContatarSolicitacaoForm(request.POST)
         if form.is_valid():
+            if request.user:
+                user = request.user
+                form.instance.user = user
+            solicitacao = self.get_object()
+            form.instance.solicitacao = solicitacao
             # Faça algo com os dados do formulário
             # Por exemplo, envie um email ou salve os dados em outro lugar
-            # Depois redirecione para algum lugar, como a página de detalhes novamente
-            return self.render_to_response(self.get_context_data(form=form))
-        return self.render_to_response(self.get_context_data(form=form))
+            # Em seguida, redirecione o usuário de volta para a página de detalhes do objeto
+            return redirect('ver_solicitacao', pk=solicitacao.pk)  # Substitua 'nomedasuaview' pelo nome da sua view de detalhes
+        return render(request, self.template_name, self.get_context_data(form=form))
+
+
+
 
 class RelatoriosView(DetailView): 
     model = PedirDoacao
