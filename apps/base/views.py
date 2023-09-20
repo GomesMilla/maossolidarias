@@ -139,6 +139,7 @@ class SolicitacaoDetailView(DetailView):
             # Faça algo com os dados do formulário
             # Por exemplo, envie um email ou salve os dados em outro lugar
             # Em seguida, redirecione o usuário de volta para a página de detalhes do objeto
+            form.save()   
             return redirect('ver_solicitacao', pk=solicitacao.pk)  # Substitua 'nomedasuaview' pelo nome da sua view de detalhes
         return render(request, self.template_name, self.get_context_data(form=form))
 
