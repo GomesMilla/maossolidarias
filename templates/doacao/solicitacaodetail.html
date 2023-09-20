@@ -2,6 +2,45 @@
 {% load static  base %}
 {% block conteudo %}
 {% registra_acesso_objeto request object as analytics %}
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<style>
+    .fixed-button-container {
+        position: fixed;
+        bottom: 20px;
+        right: 20px; 
+    }
+</style>
+<div class="fixed-button-container d-flex justify-content-end">
+    <button type="button" class="btn btn-danger rounded-circle" data-bs-toggle="modal" data-bs-target="#meuModal">
+        <i class="material-icons mt-1">email</i> 
+    </button>
+</div>
+
+<div class="modal fade" id="meuModal" tabindex="-1" role="dialog" aria-labelledby="meuModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="meuModalLabel">Contatar os responsáveis pela solicitação '{{object.titulo|default:"Não Informado" }}'</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body">
+                <p class="text-muted">Após a confirmação, os detalhes fornecidos serão enviados para o e-mail do proprietário da solicitação.</p>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ formulario }}
+                </form>
+            
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-success">Enviar</button>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="topobjetivo">
     <div class="col-md-12 col-12">
         <div class="mt-3">

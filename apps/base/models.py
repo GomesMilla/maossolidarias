@@ -54,3 +54,23 @@ class VisualizacaoObjeto(models.Model):
     def __str__(self):
         return self.ip
 
+class ContatarSolicitacao(models.Model):
+    solicitacao = models.ForeignKey("PedirDoacao", on_delete=models.CASCADE, related_name="solicitacao_contatar")
+    user = models.ForeignKey("users.User", on_delete=models.CASCADE, related_name="user_solicitante")
+    nome = models.CharField('Nome', max_length=40)
+    email = models.EmailField('E-mail')
+    telefone = models.CharField('Telefone', max_length=40, blank=True, null=True)
+    assunto = models.CharField('Assunto', max_length=250)
+    mensagem = models.TextField('Mensagem')
+    dataHorarioCriacao = models.DateTimeField('Horário de Criação', auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Contatar Solicitação"
+        verbose_name_plural="Contatar Solicitação"
+        app_label = 'base'
+        ordering = ['assunto']
+
+    def __str__(self):
+        return self.assunto
+
+

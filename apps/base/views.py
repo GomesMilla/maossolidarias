@@ -5,7 +5,7 @@ from django.views.generic import CreateView, UpdateView
 from django.views.generic import DeleteView
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from .models import PedirDoacao, CategoriaDoacao, VisualizacaoObjeto
-from .forms import PedirDoacaoForm
+from .forms import PedirDoacaoForm, ContatarSolicitacao
 from users.models import User
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
@@ -115,6 +115,23 @@ class SolicitacoesPorCategoria(DetailView):
 class SolicitacaoDetailView(DetailView):
     model = PedirDoacao
     template_name = 'doacao/solicitacaodetail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        print("Mateus esteve aquiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii")
+        context['formulario'] = ContatarSolicitacao()
+        teste = ContatarSolicitacao()
+        print(teste)
+        return context
+    
+    def post(self, request, *args, **kwargs):
+        form = ContatarSolicitacao(request.POST)
+        if form.is_valid():
+            # Faça algo com os dados do formulário
+            # Por exemplo, envie um email ou salve os dados em outro lugar
+            # Depois redirecione para algum lugar, como a página de detalhes novamente
+            return self.render_to_response(self.get_context_data(form=form))
+        return self.render_to_response(self.get_context_data(form=form))
 
 class RelatoriosView(DetailView): 
     model = PedirDoacao
