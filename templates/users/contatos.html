@@ -1,0 +1,133 @@
+{% extends 'bases/baselogado.html' %}
+{% load static %}
+{% block conteudo %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+
+
+<div class="topperfildetail">
+    <div class="container">
+        <h3>Contatos da solicitação '{{object}}'</h3>
+        <hr>
+        <div class="row text-center">
+            <div class="col-sm-6">
+                <div class="card border-primary">
+                    <div class="card-body">
+                        <h5 class="card-title">Contatos do mês</h5>
+                        <h1 class="card-text">{{qtd_contato_mes}}</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="card border-warning">
+                    <div class="card-body">
+                        <h5 class="card-title">Contatos total</h5>
+                        <h1 class="card-text">{{qtd_todos_contatos}}</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <ul class="nav nav-pills mb-3 mt-5" id="pills-tab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Contatos do mês!</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Contatos total!</button>
+            </li>
+        </ul>
+        <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
+                {% if contato_mes %}
+                    <table class="table table-hover text-center">
+                        <thead>
+                            <tr>
+                                <th scope="col">User</th>
+                                <th scope="col">Nome</th>
+                                <th scope="col">E-mail</th>
+                                <th scope="col">Telefone</th>
+                                <th scope="col">Assunto</th>
+                                <th scope="col">Mensagem</th>
+                                <th scope="col">Criado em</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for contato in contato_mes %}
+                                <tr>
+                                    <td>{{contato.user|default:"Não Informado"}}</td>
+                                    <td>{{contato.nome}}</td>
+                                    <td>{{contato.email}}</td>
+                                    <td>{{contato.telefone}}</td>
+                                    <td>{{contato.assunto}}</td>
+                                    <td>
+                                        <p class="d-inline-flex gap-1">
+                                            <a class="" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                              Ver Mensagem
+                                            </a>
+                                          </p>
+                                          <div class="collapse" id="collapseExample">
+                                            <div class="card card-body">
+                                                {{contato.mensagem}}
+                                            </div>
+                                          </div>
+                                    </td>
+                                    <td>{{contato.dataHorarioCriacao|date:"d/m/Y"}}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <div class="alert alert-info" role="alert">
+                        Sem solicitação contatos feito durante o mês atual</a>.
+                    </div>
+                {% endif %}
+            </div>
+            <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="0">
+                {% if todos_contatos %}
+                    <table class="table table-hover text-center">
+                        <thead>
+                            <tr>
+                                <th scope="col">User</th>
+                                <th scope="col">Nome</th>
+                                <th scope="col">E-mail</th>
+                                <th scope="col">Telefone</th>
+                                <th scope="col">Assunto</th>
+                                <th scope="col">Mensagem</th>
+                                <th scope="col">Criando em</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for contato in contato_mes %}
+                                <tr>
+                                    <td>{{contato.user|default:"Não Informado"}}</td>
+                                    <td>{{contato.nome}}</td>
+                                    <td>{{contato.email}}</td>
+                                    <td>{{contato.telefone}}</td>
+                                    <td>{{contato.assunto}}</td>
+                                    <td>
+                                        <p class="d-inline-flex gap-1">
+                                            <a class="" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                              Ver Mensagem
+                                            </a>
+                                          </p>
+                                          <div class="collapse" id="collapseExample">
+                                            <div class="card card-body">
+                                                {{contato.mensagem}}
+                                            </div>
+                                          </div>
+                                    </td>
+                                    <td>{{contato.dataHorarioCriacao|date:"d/m/Y"}}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <div class="alert alert-info" role="alert">
+                        Sem solicitação contatos feitos</a>.
+                    </div>
+                {% endif %}                
+            </div>
+        </div>
+
+</div>
+
+{% endblock %} 

@@ -14,4 +14,6 @@ urlpatterns = [
     path("ver-solicitacao/<int:pk>", SolicitacaoDetailView.as_view(), name="ver_solicitacao"),
     path("inativar-solicitacao/<int:pk>", DesativarSolicitacao.as_view(), name="inativar_solicitacao"),
     path("relatorios/<int:pk>", RelatoriosView.as_view(), name="relatorios"),
+    path("contatos/<int:pk>", ContatosSolicitacaoView.as_view(), name="contatos"),
+
 ]

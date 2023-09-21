@@ -4,7 +4,7 @@ from django.views.generic import TemplateView
 from django.views.generic import CreateView, UpdateView
 from django.views.generic import DeleteView
 from django.http import HttpResponseRedirect, HttpResponse, Http404
-from .models import PedirDoacao, CategoriaDoacao, VisualizacaoObjeto
+from .models import PedirDoacao, CategoriaDoacao, VisualizacaoObjeto,ContatarSolicitacao
 from .forms import PedirDoacaoForm, ContatarSolicitacaoForm
 from users.models import User
 from django.views.generic import DetailView
@@ -194,6 +194,21 @@ class RelatoriosView(DetailView):
         context['ultimosacessos'] = VisualizacaoObjeto.objects.filter(solicitacao=solicitacao).order_by('-dataHorarioCriacao')[:10]
         
 
+        return context
+
+class ContatosSolicitacaoView(DetailView): 
+    model = PedirDoacao
+    template_name = 'users/contatos.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ContatosSolicitacaoView, self).get_context_data(**kwargs)
+        solicitacao = PedirDoacao.objects.get(pk=self.kwargs.get('pk'))
+        todos_contatos = ContatarSolicitacao.objects.filter(solicitacao=solicitacao)
+        contatos_do_mes = ContatarSolicitacao.objects.filter(solicitacao=solicitacao, dataHorarioCriacao__month=date.today().month, dataHorarioCriacao__year=date.today().year)        
+        context['qtd_contato_mes'] = len(contatos_do_mes)
+        context['qtd_todos_contatos'] = len(todos_contatos)
+        context['contato_mes'] = contatos_do_mes
+        context['todos_contatos'] = todos_contatos
         return context
 
 def get_client_ip(request):
