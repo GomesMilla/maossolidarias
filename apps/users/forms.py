@@ -4,6 +4,7 @@ from users.models import User
 
 
 class PessoaJuridicaForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput)
 
     def save(self, commit=True):
         user = super(PessoaJuridicaForm, self).save(commit=False)
@@ -28,6 +29,7 @@ class PessoaJuridicaEditarForm(forms.ModelForm):
         'cep','cidade' ,'bairro', 'rua', 'numero', 'complemento', 'paginadoperfil', 'linkdoperfil']
 
 class PessoaFisicaForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput)
 
     def save(self, commit=True):
         user = super(PessoaFisicaForm, self).save(commit=False)
