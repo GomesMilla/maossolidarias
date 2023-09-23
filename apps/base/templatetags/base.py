@@ -1,7 +1,10 @@
 from django import template
+
+from base.models import PedirDoacao, VisualizacaoObjeto
 from base.views import get_client_ip, get_state_from_ip
-from base.models import VisualizacaoObjeto,PedirDoacao
+
 register = template.Library()
+from users.models import User
 
 
 @register.simple_tag()
@@ -29,6 +32,16 @@ def registra_acesso_objeto(request, objeto):
             # testar em produção para ver se funciona
             visualizacao_analytics = VisualizacaoObjeto(solicitacao=solicitacao, ip=ip, estado=state)
             visualizacao_analytics.save()
+
+
+
+@register.simple_tag()
+def verifica_quantidade_de_solicitacoes(instituicao_id):
+
+    user = User.objects.get(pk=instituicao_id)
+    doacoes = PedirDoacao.objects.filter(usuario=user)
+    quantidade = doacoes.count()
+    return quantidade
 
 #como eu quero ser reconhecido no mercado de trabalho e como eu vou ser reconhecido por isso
 #o que eu vendo

@@ -223,3 +223,4 @@ def get_state_from_ip(ip_address):
     data = response.json()
     state = data.get('region') 
     return state
+

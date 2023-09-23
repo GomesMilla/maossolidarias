@@ -62,6 +62,9 @@
                 <ul class="navbar-nav me-5 mb-2 mb-lg-0">
                   <li class="nav-item dropdown m-2">
                   <li class="nav-item m-2">
+                    <a class="nav-link active" aria-current="page" href="{% url 'instituicoes' %}">Instituiçoes</a>
+                  </li>
+                  <li class="nav-item m-2">
                     <a class="nav-link active" aria-current="page" href="{% url 'solicitacoes' %}">Solicitações</a>
                   </li>
                   {% if user.is_authenticated %}

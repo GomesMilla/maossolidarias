@@ -12,9 +12,10 @@ urlpatterns = [
     
     # Jurídico
     path("criar-conta-juridico/", PessoaJuridicaCreateView.as_view(), name="criar_conta_juridico"),
-    path("conta-juridico/<int:pk>/edit", PessoaJuridicaUpdateView.as_view(), name="atualizar_conta_juridico"),
-    path("perfil/<int:pk>/juridica", login_required(PerfilDetailView.as_view()), name="perfil"),
-    path("painel-administrativo/<int:pk>", PainelAdministrativo.as_view(), name="painel_administrativo"),
+    path("conta-juridico/<int:pk>/edit", login_required(PessoaJuridicaUpdateView.as_view()), name="atualizar_conta_juridico"),
+    path("perfil/<int:pk>/juridica", PerfilDetailView.as_view(), name="perfil"),
+    path("painel-administrativo/<int:pk>", login_required(PainelAdministrativo.as_view()), name="painel_administrativo"),
+    path("instituicoes/", InstituicoesListView.as_view(), name="instituicoes"),
     
     # Físico
     path("criar-conta-fisico/", PessoaFisicaCreateView.as_view(), name="criar_conta_fisico"),

@@ -1,0 +1,52 @@
+{% extends 'bases/baselogado.html' %}
+{% load static base %}
+{% load bootstrap %}
+{% block conteudo %}
+
+    <div class="ms-4 topobjetivo">
+        <div class="row">
+            <div class="col-md-2 mb-4">
+                <div class="list-group">
+                    {% for cidade in cidades_unicas %}
+                        <a href="#" class="list-group-item list-group-item-action">{{cidade}}</a>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-10">
+                {% if instituicoes %}
+                    <div class="row row-cols-1 row-cols-md-3 g-4 align-items-stretch me-2">
+                        {% for instituicao in instituicoes %}
+                            <div class="col">
+                                <div class="card p-2 h-70">
+                                    {% if instituicao.imagemperfil %}
+                                        <img src="{{instituicao.imagemperfil.url}}" alt="{{instituicao.nome_completo}}" class="card-img-top" width="300" height="300">
+                                    {% else %}
+                                        <img src="{% static 'images/undraw_not_found_re_bh2e.svg' %}" alt="{{instituicao.nome_completo}}" class="card-img-top" width="300" height="300">
+                                    {% endif %}
+                                    <div class="card-body">
+                                        <h5 class="card-title"><a href="{% url 'perfil' instituicao.id %}">{{instituicao.nome_completo|default:"Não Informado"}}</a></h5>
+                                        <p>Razão Social: {{instituicao.razao_social|default:"Não Informado"}}</p>
+                                        <p>CNPJ: {{instituicao.cnpj|default:"Não Informado"}}</p>
+                                        <p>E-mail: {{instituicao.email|default:"Não Informado"}}</p>
+                                        <p>CEP: {{instituicao.cep|default:"Não Informado"}}</p>
+                                        <p>Bairro: {{instituicao.bairro|default:"Não Informado"}}</p>
+                                        <p>Cidade: {{instituicao.cidade|default:"Não Informado"}}</p>
+                                    </div>
+                                    <div class="card-footer">
+                                        {% verifica_quantidade_de_solicitacoes instituicao.id as quantidade %}
+                                        <small class="text-body-secondary">Solicitações: {{quantidade}}</small>
+                                    </div>
+                                </div>                    
+                            </div>
+                        {% endfor %}  
+                    </div>   
+                {% else %}
+                    <div class="alert alert-info" role="alert">
+                        Ainda não foram cadastradas instituiçoes dentro do nosso sistema. <a href="{% url 'criar_conta' %}">Cadastra-se aqui.</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+{% endblock %}

@@ -54,6 +54,19 @@ class UserManager(BaseUserManager):
     def todos_usuarios(self):
         return super(UserManager, self).get_queryset()
 
+class Estado(models.Model):
+    uf = models.CharField(max_length=2)
+    nome = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.nome
+
+class Cidade(models.Model):
+    nome = models.CharField(max_length=100)
+    estado = models.ForeignKey(Estado, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.nome
 
 class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(

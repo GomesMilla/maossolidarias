@@ -10,7 +10,8 @@ from django.db.models import Count
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.utils import timezone
-from django.views.generic import CreateView, TemplateView, UpdateView
+from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
+                                  TemplateView, UpdateView)
 from django.views.generic.detail import DetailView
 
 from users.forms import PessoaFisicaForm, PessoaJuridicaForm
@@ -170,4 +171,21 @@ def AjaxVerificarEmail(request):
 
     return JsonResponse(data)
 
-
+class InstituicoesListView(ListView):
+    model = User
+    template_name = 'users/juridico/lista-intituicoes.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        instituicoes = User.objects.all()
+        cidades_unicas = set()
+        import unicodedata
+        for instituicao in instituicoes:
+            cidade = instituicao.cidade            
+            if cidade is not None:
+                cidade_normalizada = unicodedata.normalize('NFKD', cidade).encode('ASCII', 'ignore').decode('utf-8')
+                cidade_normalizada = cidade_normalizada.lower()                
+                cidades_unicas.add(cidade_normalizada)
+        context['instituicoes'] = User.objects.filter(is_juridico=True, is_active=True)
+        context['cidades_unicas'] = cidades_unicas
+        return context
