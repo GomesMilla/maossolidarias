@@ -21,4 +21,5 @@ urlpatterns = [
     path("conta-fisica/<int:pk>/edit", login_required(PessoaFisicaUpdateView.as_view()), name="atualizar_conta_fisica"),
     path("perfil/<int:pk>/fisica", PerfilDetailFisicaView.as_view(), name="perfil_pessoa_fisica"),
 
+    path('Ajax-Verificar-Email/', AjaxVerificarEmail, name="AjaxVerificarEmail"),
 ]

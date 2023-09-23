@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.utils import timezone
 from django.views.generic import CreateView, TemplateView, UpdateView
@@ -101,7 +101,6 @@ class PerfilDetailView(DetailView):
         
         return context
 
-
 class PerfilDetailView(DetailView):
     model = User
     template_name = 'users/juridico/perfildetail.html'
@@ -111,7 +110,6 @@ class PerfilDetailView(DetailView):
         object_id = self.kwargs['pk']
         object_user = User.objects.get(pk=object_id)
         list_solicitacoes = PedirDoacao.objects.filter(usuario=object_user, is_active=True)
-  
         context['list_solicitacoes'] = list_solicitacoes
         context['object'] = object_user
         
@@ -128,7 +126,7 @@ class PerfilDetailFisicaView(DetailView):
         visualizacoes_por_solicitacao = VisualizacaoObjeto.objects.values('solicitacao').annotate(
             total_visualizacoes=Count('solicitacao')
         ).order_by('-total_visualizacoes')[:3]
-  
+
         # Obtenha as solicitações correspondentes às visualizações mais acessadas
         solicitacoes_mais_acessadas = PedirDoacao.objects.filter(
             pk__in=[item['solicitacao'] for item in visualizacoes_por_solicitacao]
@@ -156,7 +154,16 @@ class PainelAdministrativo(DetailView):
         context['list_solicitacoes_inativas'] = list_solicitacoes_inativas
         context['qtd_list_solicitacoes'] = list_solicitacoes.count()
         context['qtd_list_solicitacoes_abertas'] = list_solicitacoes_abertas.count()
-        context['qtd_list_solicitacoes_inativas'] = list_solicitacoes_inativas.count()
-        
+        context['qtd_list_solicitacoes_inativas'] = list_solicitacoes_inativas.count()        
         return context
 
+def AjaxVerificarEmail(request):
+    email = request.GET.get('Email', None)
+        
+    data = {
+        'is_taken': User.objects.filter(email__iexact=email).exists()
+    }
+    if not data['is_taken']:
+        data['error_message'] = 'E-mail não cadastrado!'
+
+    return JsonResponse(data)
