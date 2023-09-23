@@ -1,9 +1,11 @@
 import logging
+import re
 
 from base.models import CategoriaDoacao, PedirDoacao, VisualizacaoObjeto
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ValidationError
 from django.db.models import Count
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
@@ -167,3 +169,5 @@ def AjaxVerificarEmail(request):
         data['error_message'] = 'E-mail não cadastrado!'
 
     return JsonResponse(data)
+
+
