@@ -16,6 +16,7 @@ urlpatterns = [
     path("perfil/<int:pk>/juridica", PerfilDetailView.as_view(), name="perfil"),
     path("painel-administrativo/<int:pk>", login_required(PainelAdministrativo.as_view()), name="painel_administrativo"),
     path("instituicoes/", InstituicoesListView.as_view(), name="instituicoes"),
+    path('instituicoes/<str:cidade>/', ListarInstituicoesPorCidadeView.as_view(), name='listar_instituicoes_por_cidade'),
     
     # Físico
     path("criar-conta-fisico/", PessoaFisicaCreateView.as_view(), name="criar_conta_fisico"),

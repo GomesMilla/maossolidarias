@@ -8,7 +8,8 @@
             <div class="col-md-2 mb-4">
                 <div class="list-group">
                     {% for cidade in cidades_unicas %}
-                        <a href="#" class="list-group-item list-group-item-action">{{cidade}}</a>
+                        <a href="{% url 'listar_instituicoes_por_cidade' cidade %}" class="list-group-item list-group-item-action text-uppercase 
+                        {% if cidadev == cidade %}active{% endif %}">{{cidade}}</a>
                     {% endfor %}
                 </div>
             </div>

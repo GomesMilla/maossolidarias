@@ -1,5 +1,6 @@
 import logging
 import re
+import unicodedata
 
 from base.models import CategoriaDoacao, PedirDoacao, VisualizacaoObjeto
 from django.contrib import messages
@@ -8,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.db.models import Count
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import get_list_or_404, redirect, render
 from django.utils import timezone
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   TemplateView, UpdateView)
@@ -178,14 +179,33 @@ class InstituicoesListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         instituicoes = User.objects.all()
-        cidades_unicas = set()
-        import unicodedata
-        for instituicao in instituicoes:
-            cidade = instituicao.cidade            
-            if cidade is not None:
-                cidade_normalizada = unicodedata.normalize('NFKD', cidade).encode('ASCII', 'ignore').decode('utf-8')
-                cidade_normalizada = cidade_normalizada.lower()                
-                cidades_unicas.add(cidade_normalizada)
+        cidades_unicas = tranformar_cidades_unicas(instituicoes)
         context['instituicoes'] = User.objects.filter(is_juridico=True, is_active=True)
         context['cidades_unicas'] = cidades_unicas
+        return context
+
+def tranformar_cidades_unicas(instituicoes):
+    cidades_unicas = set()
+    for instituicao in instituicoes:
+        cidade = instituicao.cidade            
+        if cidade is not None:
+            cidade_normalizada = unicodedata.normalize('NFKD', cidade).encode('ASCII', 'ignore').decode('utf-8')
+            cidade_normalizada = cidade_normalizada.lower()                
+            cidades_unicas.add(cidade_normalizada)
+    return cidades_unicas
+
+class ListarInstituicoesPorCidadeView(ListView):
+    model = User
+    template_name = 'users/juridico/lista-intituicoes.html'
+    context_object_name = 'instituicoes'
+
+    def get_context_data(self, **kwargs):
+        context = super(ListarInstituicoesPorCidadeView, self).get_context_data(**kwargs)
+        cidade = self.kwargs['cidade'] 
+        instituicoes = User.objects.all()
+        cidades_unicas = tranformar_cidades_unicas(instituicoes)
+        instituicoes = get_list_or_404(User, cidade__icontains=cidade)
+        context['instituicoes'] = instituicoes
+        context['cidades_unicas'] = cidades_unicas
+        context['cidadev'] = cidade
         return context
