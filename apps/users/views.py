@@ -1,21 +1,22 @@
-from django.shortcuts import render
-from django.views.generic import CreateView, UpdateView
-from users.forms import PessoaJuridicaForm, PessoaFisicaForm
-from base.models import PedirDoacao, CategoriaDoacao, VisualizacaoObjeto
-from users.models import User
-from django.views.generic import TemplateView
-from django.http import HttpResponse
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
+import logging
+
+from base.models import CategoriaDoacao, PedirDoacao, VisualizacaoObjeto
 from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.db.models import Count
+from django.http import HttpResponse
+from django.shortcuts import redirect, render
+from django.utils import timezone
+from django.views.generic import CreateView, TemplateView, UpdateView
+from django.views.generic.detail import DetailView
+
+from users.forms import PessoaFisicaForm, PessoaJuridicaForm
+from users.models import User
+
 from .forms import *
 from .models import *
-from django.utils import timezone
-from django.contrib import messages
-import logging
-from django.views.generic.detail import DetailView
-from django.contrib.auth import authenticate, login, logout
-from django.db.models import Count
+
 logger = logging.getLogger(__name__)
 
 def ViewLogin(request):

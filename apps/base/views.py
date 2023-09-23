@@ -1,25 +1,26 @@
-from django.shortcuts import render
-from django.urls import reverse_lazy
-from django.views.generic import TemplateView
-from django.views.generic import CreateView, UpdateView
-from django.views.generic import DeleteView
-from django.http import HttpResponseRedirect, HttpResponse, Http404
-from .models import PedirDoacao, CategoriaDoacao, VisualizacaoObjeto,ContatarSolicitacao
-from .forms import PedirDoacaoForm, ContatarSolicitacaoForm
-from users.models import User
-from django.views.generic import DetailView
-from django.shortcuts import render, redirect
-from django.views.generic import ListView
-from django.views.generic.detail import DetailView
-from django.utils import timezone
-from django.contrib.auth.views import LogoutView
-from dateutil.relativedelta import relativedelta
-from django.db.models import Count
-import requests
-import datetime
 import calendar
-
+import datetime
 from datetime import date
+
+import requests
+from dateutil.relativedelta import relativedelta
+from django.contrib.auth.views import LogoutView
+from django.core.mail import send_mail
+from django.db.models import Count
+from django.http import Http404, HttpResponse, HttpResponseRedirect
+from django.shortcuts import redirect, render
+from django.urls import reverse_lazy
+from django.utils import timezone
+from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
+                                TemplateView, UpdateView)
+from django.views.generic.detail import DetailView
+from users.models import User
+
+from .forms import ContatarSolicitacaoForm, PedirDoacaoForm
+from .models import (CategoriaDoacao, ContatarSolicitacao, PedirDoacao,
+                    VisualizacaoObjeto)
+
+
 class GoalView(TemplateView):
     template_name = "presentation/objetivo.html"
 
@@ -34,7 +35,7 @@ class IntroductionView(ListView):
         visualizacoes_por_solicitacao = VisualizacaoObjeto.objects.values('solicitacao').annotate(
             total_visualizacoes=Count('solicitacao')
         ).order_by('-total_visualizacoes')[:3]
-  
+
         # Obtenha as solicitações correspondentes às visualizações mais acessadas
         solicitacoes_mais_acessadas = PedirDoacao.objects.filter(
             pk__in=[item['solicitacao'] for item in visualizacoes_por_solicitacao],
@@ -114,8 +115,6 @@ class SolicitacoesPorCategoria(DetailView):
         context['locategoriaja'] = categoria
         return context
 
-
-
 class SolicitacaoDetailView(DetailView):
     model = PedirDoacao
     template_name = 'doacao/solicitacaodetail.html'
@@ -135,16 +134,14 @@ class SolicitacaoDetailView(DetailView):
                 user = request.user
                 form.instance.user = user
             solicitacao = self.get_object()
-            form.instance.solicitacao = solicitacao
-            # Faça algo com os dados do formulário
-            # Por exemplo, envie um email ou salve os dados em outro lugar
-            # Em seguida, redirecione o usuário de volta para a página de detalhes do objeto
-            form.save()   
-            return redirect('ver_solicitacao', pk=solicitacao.pk)  # Substitua 'nomedasuaview' pelo nome da sua view de detalhes
+            form.instance.solicitacao = solicitacao            
+            form.save()  
+            nome = form.instance.nome
+            telefone = form.instance.telefone
+            mensagem = f"{form.instance.mensagem}\n\nNome: {nome}\nTelefone: {telefone}"
+            send_mail(form.instance.assunto, mensagem, form.instance.email, [solicitacao.usuario.email, form.instance.email])
+            return redirect('ver_solicitacao', pk=solicitacao.pk)  
         return render(request, self.template_name, self.get_context_data(form=form))
-
-
-
 
 class RelatoriosView(DetailView): 
     model = PedirDoacao

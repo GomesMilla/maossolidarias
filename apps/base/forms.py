@@ -1,5 +1,7 @@
 from django import forms
-from .models import CategoriaDoacao, PedirDoacao, ContatarSolicitacao
+
+from .models import CategoriaDoacao, ContatarSolicitacao, PedirDoacao
+
 
 class PedirDoacaoForm(forms.ModelForm):
 

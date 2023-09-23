@@ -1,5 +1,7 @@
 from django import forms
+
 from users.models import User
+
 
 class PessoaJuridicaForm(forms.ModelForm):
 
