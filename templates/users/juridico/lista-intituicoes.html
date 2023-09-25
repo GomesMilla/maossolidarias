@@ -9,7 +9,7 @@
                 <div class="list-group">
                     {% for cidade in cidades_unicas %}
                         <a href="{% url 'listar_instituicoes_por_cidade' cidade %}" class="list-group-item list-group-item-action text-uppercase 
-                        {% if cidadev == cidade %}active{% endif %}">{{cidade}}</a>
+                        {% if cidadev == cidade %} active {% endif %}">{{cidade}}</a>
                     {% endfor %}
                 </div>
             </div>
