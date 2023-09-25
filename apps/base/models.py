@@ -55,7 +55,7 @@ class VisualizacaoObjeto(models.Model):
 
 class ContatarSolicitacao(models.Model):
     solicitacao = models.ForeignKey("PedirDoacao", on_delete=models.CASCADE, related_name="solicitacao_contatar")
-    user = models.ForeignKey("users.User", on_delete=models.CASCADE, related_name="user_solicitante")
+    user = models.ForeignKey("users.User", on_delete=models.CASCADE, related_name="user_solicitante", blank=True, null=True)
     nome = models.CharField('Nome', max_length=40)
     email = models.EmailField('E-mail')
     telefone = models.CharField('Telefone', max_length=40, blank=True, null=True)

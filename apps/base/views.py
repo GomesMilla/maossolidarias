@@ -130,7 +130,7 @@ class SolicitacaoDetailView(DetailView):
     def post(self, request, *args, **kwargs):
         form = ContatarSolicitacaoForm(request.POST)
         if form.is_valid():
-            if request.user:
+            if request.user.is_authenticated:
                 user = request.user
                 form.instance.user = user
             solicitacao = self.get_object()
