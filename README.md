@@ -29,9 +29,24 @@ Este é um projeto totalmente grátis!
 
 - [x] Cadastro de Usuário Físico
 - [x] Cadastro de Usuário Jurídico
-- [x] Cadastro de Doações
+- [x] Cadastro de Doações/Solitações
 - [x] Listagem de Solicitações
-
+- [x] Listagem de Instituições
+- [x] Listagem de Instituições por cidade
+- [x] Visualizar usuário Jurídico
+- [x] Visualizar usuário Físico
+- [x] Visualizar doação/solicitação
+- [x] Visualizar doação/solicitação por categoria
+- [x] Contatar responsável pela doação/solicitação para doar
+- [x] Editar Usuário Físico
+- [x] Editar Usuário Jurídico
+- [x] Editar doação/solicitação
+- [x] Painel Administrativo para usuários jurídicos informando sobre suas doações/solicitações
+- [x] Relatório a respeito da doação/solicitação, informando quantidade de acessos total e do mês atual.
+- [x] Painel Administrativo de contatos que cada doação/solicitação obteve
+- [x] Inativar Solicitação
+- [x] Recuperação de Senha
+- [x] Home informando sobre o projeto, membros e as solicitações mais acessadas
 
 ### 🛠 Tecnologias
 <p>As seguintes ferramentas foram usadas na construção do projeto:</p>
