@@ -1,6 +1,53 @@
 {% extends 'bases/baselogado.html' %}
+{% load static base bootstrap %}
 {% load static %}
 {% block conteudo %}
+    <style>
+        .fixed-button-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px; 
+        }
+        #id_denunciante{
+            display:none
+        }
+        #id_denunciado{
+            display:none
+        }   
+        label[for="id_denunciado"] {
+            display: none;
+        }     
+        label[for="id_denunciante"] {
+            display: none;
+        }
+        
+    </style>
+    <div class="fixed-button-container d-flex justify-content-end">
+        <button type="button" class="btn btn-danger rounded-circle" data-bs-toggle="modal" data-bs-target="#meuModal">
+            <i class="material-icons mt-1">error</i> 
+        </button>
+    </div>
+    <div class="modal fade" id="meuModal" tabindex="-1" role="dialog" aria-labelledby="meuModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="meuModalLabel">Denunciar instituição '{{object.nome_completo }}'</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+                <form method="post">
+                    <div class="modal-body">
+                        <p class="text-muted">Após a confirmação a sua denúncia será redirecionada para a análise da Mãos Amigas</p>
+                        {% csrf_token %}
+                        {{ formulario|bootstrap }}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-success">Enviar</button>
+                    </div>
+                </form>  
+            </div>
+        </div>
+    </div>
     <div class="topperfildetail">
         <div class="col-md-12 col-12">
             <div class="mt-3">

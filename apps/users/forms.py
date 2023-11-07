@@ -1,6 +1,6 @@
 from django import forms
 
-from users.models import User
+from users.models import User, DenunciarEmpresa
 from users.utils import validate_username
 from django.core.exceptions import ValidationError
 
@@ -71,3 +71,9 @@ class PessoaFisicaEditarForm(forms.ModelForm):
         username = self.cleaned_data['username']
         validate_username(username)
         return username
+
+class DenunciarEmpresaForm(forms.ModelForm):
+
+    class Meta:
+        model = DenunciarEmpresa
+        exclude = ['dataHorarioCriacao']

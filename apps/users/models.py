@@ -143,3 +143,23 @@ class ProfileManager(BaseUserManager):
 
     def usuarios_ativos(self):
         return super(ProfileManager, self).get_queryset().filter(user__is_active=True)
+
+
+class DenunciarEmpresa(models.Model):    
+    denunciante = models.ForeignKey("users.User", on_delete=models.CASCADE, related_name="user_denunciante", blank=True, null=True)
+    denunciado = models.ForeignKey("users.User", on_delete=models.CASCADE, related_name="user_denunciado", blank=True, null=True)
+    nome = models.CharField('Nome', max_length=40)
+    email = models.EmailField('E-mail')
+    telefone = models.CharField('Telefone', max_length=40, blank=True, null=True)
+    assunto = models.CharField('Assunto', max_length=250)
+    mensagem = models.TextField('Descreva o motivo da denúncia')
+    dataHorarioCriacao = models.DateTimeField('Horário de Criação', auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Denuncia Empresa"
+        verbose_name_plural="Denuncias Empresa"
+        app_label = 'users'
+        ordering = ['assunto']
+
+    def __str__(self):
+        return self.assunto

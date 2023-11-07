@@ -15,8 +15,8 @@ from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   TemplateView, UpdateView)
 from django.views.generic.detail import DetailView
 
-from users.forms import PessoaFisicaForm, PessoaJuridicaForm
-from users.models import User
+from users.forms import PessoaFisicaForm, PessoaJuridicaForm, DenunciarEmpresaForm
+from users.models import User, DenunciarEmpresa
 
 from .forms import *
 from .models import *
@@ -116,8 +116,24 @@ class PerfilDetailView(DetailView):
         list_solicitacoes = PedirDoacao.objects.filter(usuario=object_user, is_active=True)
         context['list_solicitacoes'] = list_solicitacoes
         context['object'] = object_user
+
+        empresa_juridica = object_user
+        formulario = DenunciarEmpresaForm()
+        formulario.fields['denunciado'].initial = empresa_juridica
+        if self.request.user:
+            formulario.fields['denunciante'].initial = self.request.user
+        context['formulario'] = formulario
         
         return context
+
+
+    def post(self, request, *args, **kwargs):
+        form = DenunciarEmpresaForm(request.POST)
+        if form.is_valid():
+            obj_empresa = self.get_object()      
+            form.save()  
+            return redirect('perfil', pk=obj_empresa.pk)  
+        return render(request, self.template_name, self.get_context_data(form=form))
 
 class PerfilDetailFisicaView(DetailView):
     model = User
