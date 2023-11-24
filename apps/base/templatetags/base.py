@@ -9,12 +9,9 @@ from users.models import User
 
 @register.simple_tag()
 def registra_acesso_objeto(request, objeto):
-    """
-    Método que faz estatistica de acesso aos objetos do Vindula
-    """
+
     if not request:
         pass
-
     else:
         try:
             objetoid = objeto.id
@@ -29,9 +26,14 @@ def registra_acesso_objeto(request, objeto):
         else:
             solicitacao = PedirDoacao.objects.get(pk=objetoid)
             state = get_state_from_ip(ip)
-            # testar em produção para ver se funciona
-            visualizacao_analytics = VisualizacaoObjeto(solicitacao=solicitacao, ip=ip, estado=state)
-            visualizacao_analytics.save()
+            try:
+                visualizacao_analytics = VisualizacaoObjeto.objects.get(solicitacao=solicitacao, estado=state)
+                # Atualizar o objeto existente, se necessário
+                # visualizacao_analytics.algum_campo = algum_valor
+                visualizacao_analytics.save()
+            except VisualizacaoObjeto.DoesNotExist:
+                visualizacao_analytics = VisualizacaoObjeto(solicitacao=solicitacao, ip=ip, estado=state)
+                visualizacao_analytics.save()
 
 
 
