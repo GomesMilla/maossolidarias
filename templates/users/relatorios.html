@@ -5,69 +5,78 @@
 
 <div class="topperfildetail">
     <div class="container">
-        <h3>Relatório sobre a solicitação '{{object}}'</h3>
-        <hr>
-        <div class="row text-center">
-            <div class="col-sm-3">
-                <div class="card border-primary">
-                    <div class="card-body">
-                        <h5 class="card-title">Acessos únicos no mês</h5>
-                        <h1 class="card-text">{{qtd_list_acessos_mes_unico}}</h1>
+        {% if request.user == object.usuario  %}    
+            <h3>Relatório sobre a solicitação '{{object}}'</h3>
+            <hr>
+            <div class="row text-center">
+                <div class="col-sm-3">
+                    <div class="card border-primary">
+                        <div class="card-body">
+                            <h5 class="card-title">Acessos únicos no mês</h5>
+                            <h1 class="card-text">{{qtd_list_acessos_mes_unico}}</h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="card border-warning">
+                        <div class="card-body">
+                            <h5 class="card-title">Acessos no mês total</h5>
+                            <h1 class="card-text">{{qtd_list_acessos_mes_total}}</h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="card border-danger">
+                        <div class="card-body">
+                            <h5 class="card-title">Acessos únicos total</h5>
+                            <h1 class="card-text">{{qtd_list_acessos_total_unicos}}</h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="card border-success">
+                        <div class="card-body">
+                            <h5 class="card-title">Acessos total</h5>
+                            <h1 class="card-text">{{qtd_list_acessos_total}}</h1>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-sm-3">
-                <div class="card border-warning">
-                    <div class="card-body">
-                        <h5 class="card-title">Acessos no mês total</h5>
-                        <h1 class="card-text">{{qtd_list_acessos_mes_total}}</h1>
-                    </div>
-                </div>
+            <h5 class="mt-4">Relatório do mês atual:</h5>
+            <div id="container">
+                <canvas id="pie-chart" height="50%"></canvas>
             </div>
-            <div class="col-sm-3">
-                <div class="card border-danger">
-                    <div class="card-body">
-                        <h5 class="card-title">Acessos únicos total</h5>
-                        <h1 class="card-text">{{qtd_list_acessos_total_unicos}}</h1>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-3">
-                <div class="card border-success">
-                    <div class="card-body">
-                        <h5 class="card-title">Acessos total</h5>
-                        <h1 class="card-text">{{qtd_list_acessos_total}}</h1>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <h5 class="mt-4">Relatório do mês atual:</h5>
-        <div id="container">
-            <canvas id="pie-chart" height="50%"></canvas>
-        </div>
-        {% comment %} <h5 class="mt-3">Últimos seis meses:</h5>
-        <div id="container" style="width: 100%;">
-            <canvas id="seis"></canvas>
-        </div> {% endcomment %}
-        <h5 class="mt-4">Últimos acessos:</h5>
-        <table class="table table-hover text-center">
-            <thead>
-                <tr>
-                    <th scope="col">IP</th>
-                    <th scope="col">Estado(Provável)</th>
-                    <th scope="col">Data e Hora do acesso</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for acesso in ultimosacessos %}
+            {% comment %} <h5 class="mt-3">Últimos seis meses:</h5>
+            <div id="container" style="width: 100%;">
+                <canvas id="seis"></canvas>
+            </div> {% endcomment %}
+            <h5 class="mt-4">Últimos acessos:</h5>
+            <table class="table table-hover text-center">
+                <thead>
                     <tr>
-                        <td>{{acesso.ip}}</td>
-                        <td>{{acesso.ip}}</td>
-                        <td>{{acesso.dataHorarioCriacao}}</td>
+                        <th scope="col">IP</th>
+                        <th scope="col">Estado(Provável)</th>
+                        <th scope="col">Data e Hora do acesso</th>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    {% for acesso in ultimosacessos %}
+                        <tr>
+                            <td>{{acesso.ip}}</td>
+                            <td>{{acesso.ip}}</td>
+                            <td>{{acesso.dataHorarioCriacao}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <div class="alert alert-danger" role="alert">
+                <h4 class="alert-heading">Acesso Negado!</h4>
+                <p>Os relatórios da solicitação só pode ser visualizados pelo próprio solicitante.</p>
+                <hr>
+                <p class="mb-0">Em caso de qualquer problema ou erro, por favor, entre em contato com a equipe Mãos Amigas para assistência.</p>
+            </div>
+        {% endif %}
     </div>
 </div>
 

@@ -23,21 +23,31 @@
     
 <div class="container top">
     <div class="row mt-5 card">
-        <h4 class="mb-4 tituloIndex">Editar informações:</h4>
-        <hr>
-        <div class="col-12 col-md-12 col-sm-12">
-            <span class="">
-                <form method="POST" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    {{form.media}}
-                    {{ form|bootstrap }}
-                    <div class="d-grid gap-6 d-md-block mt-3 mb-3 text-center ">
-                        <button class="btn btn-success rounded-pill col-2" id="botao" type="submit">Salvar</button>
-                        <a class="btn btn-danger rounded-pill col-2" href="{% url 'objetivo' %}" >Cancelar</a>
-                    </div>
-                </form>  
-            </span>
-        </div>
+        {% if perfil_usuario == request.user  %}
+            <h4 class="mb-4 tituloIndex">Editar informações:</h4>
+            <hr>
+            <div class="col-12 col-md-12 col-sm-12">
+                <span class="">
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{form.media}}
+                        {{ form|bootstrap }}
+                        <div class="d-grid gap-6 d-md-block mt-3 mb-3 text-center ">
+                            <button class="btn btn-success rounded-pill col-2" id="botao" type="submit">Salvar</button>
+                            <a class="btn btn-danger rounded-pill col-2" href="{% url 'objetivo' %}" >Cancelar</a>
+                        </div>
+                    </form>  
+                </span>
+            </div>
+        {% else %}
+            <div class="alert alert-danger" role="alert">
+                <h4 class="alert-heading">Acesso Negado!</h4>
+                <p>Você está tentando editar o perfil de outro usuário, o que não é permitido.</p>
+                <p>Contribua para causas importantes e faça a diferença!</p>
+                <hr>
+                <p class="mb-0">Em caso de qualquer problema ou erro, por favor, entre em contato com a equipe Mãos Amigas para assistência.</p>
+            </div>
+        {% endif %}
     </div>
 </div>
 <script>

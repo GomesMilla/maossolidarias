@@ -4,48 +4,84 @@
 
 <div class="topperfildetail">
     <div class="container">
-        <h3>Painel Administrativo</h3>
-        <hr>
-        <div class="row text-center">
-            <div class="col-sm-4">
-                <div class="card border-primary">
-                    <div class="card-body">
-                        <h5 class="card-title">Solicitações em aberto!</h5>
-                        <h1 class="card-text">{{qtd_list_solicitacoes_abertas}}</h1>
+        {% if request.user.is_juridico  %}
+            <h3>Painel Administrativo</h3>
+            <hr>
+            <div class="row text-center">
+                <div class="col-sm-4">
+                    <div class="card border-primary">
+                        <div class="card-body">
+                            <h5 class="card-title">Solicitações em aberto!</h5>
+                            <h1 class="card-text">{{qtd_list_solicitacoes_abertas}}</h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4 ">
+                    <div class="card border-danger">
+                        <div class="card-body">
+                            <h5 class="card-title">Solicitações inativas!</h5>
+                            <h1 class="card-text">{{qtd_list_solicitacoes_inativas}}</h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="card border-success">
+                        <div class="card-body">
+                            <h5 class="card-title">Total de solicitações!</h5>
+                            <h1 class="card-text">{{qtd_list_solicitacoes}}</h1>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-sm-4 ">
-                <div class="card border-danger">
-                    <div class="card-body">
-                        <h5 class="card-title">Solicitações inativas!</h5>
-                        <h1 class="card-text">{{qtd_list_solicitacoes_inativas}}</h1>
-                    </div>
+            <ul class="nav nav-pills mb-3 mt-5" id="pills-tab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Solicitações em aberto!</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Solicitações inativas!</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Total de solicitações!</button>
+                </li>
+            </ul>
+            <div class="tab-content" id="pills-tabContent">
+                <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
+                    {% if list_solicitacoes_abertas %}
+                        <table class="table table-hover border text-center">
+                            <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Título</th>
+                                    <th scope="col">Criado Por</th>
+                                    <th scope="col">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for solicitacao in list_solicitacoes_abertas %}
+                                    <tr>
+                                        <th scope="row">{{solicitacao.id}}</th>
+                                        <td>{{solicitacao.titulo}}</td>
+                                        <td>{{solicitacao.usuario}} - {{solicitacao.horarioCriacao}}</td>
+                                        <td>
+                                            <div class="d-grid gap-2 d-md-block">                                            
+                                                <a href="{% url 'editar_solicitacao' solicitacao.pk %}" class="btn btn-primary" type="button">Editar</a>
+                                                <a href="{% url 'inativar_solicitacao' solicitacao.pk %}" class="btn btn-danger">Inativar</a>
+                                                <a href="{% url 'relatorios' solicitacao.pk %}" class="btn btn-success" type="button">Relatório</a>
+                                                <a href="{% url 'contatos' solicitacao.pk %}" class="btn btn-dark" type="button">Contatos</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <div class="alert alert-info" role="alert">
+                            Sem solicitação cadastrada em nossa base, caso queira cadastrar <a href="{% url 'pedir_doacao' %}" class="alert-link">clique aqui</a>.
+                        </div>
+                    {% endif %}
                 </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="card border-success">
-                    <div class="card-body">
-                        <h5 class="card-title">Total de solicitações!</h5>
-                        <h1 class="card-text">{{qtd_list_solicitacoes}}</h1>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <ul class="nav nav-pills mb-3 mt-5" id="pills-tab" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Solicitações em aberto!</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Solicitações inativas!</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Total de solicitações!</button>
-            </li>
-        </ul>
-        <div class="tab-content" id="pills-tabContent">
-            <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
-                {% if list_solicitacoes_abertas %}
+                <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="0">
+                    {% if list_solicitacoes_inativas %}
                     <table class="table table-hover border text-center">
                         <thead>
                             <tr>
@@ -56,17 +92,46 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for solicitacao in list_solicitacoes_abertas %}
+                            {% for solicitacao in list_solicitacoes_inativas %}
                                 <tr>
                                     <th scope="row">{{solicitacao.id}}</th>
                                     <td>{{solicitacao.titulo}}</td>
                                     <td>{{solicitacao.usuario}} - {{solicitacao.horarioCriacao}}</td>
                                     <td>
-                                        <div class="d-grid gap-2 d-md-block">                                            
-                                            <a href="{% url 'editar_solicitacao' solicitacao.pk %}" class="btn btn-primary" type="button">Editar</a>
-                                            <a href="{% url 'inativar_solicitacao' solicitacao.pk %}" class="btn btn-danger">Inativar</a>
+                                        <div class="d-grid gap-2 d-md-block">                                           
                                             <a href="{% url 'relatorios' solicitacao.pk %}" class="btn btn-success" type="button">Relatório</a>
-                                            <a href="{% url 'contatos' solicitacao.pk %}" class="btn btn-dark" type="button">Contatos</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <div class="alert alert-info" role="alert">
+                        Sem solicitação inativas cadastrada em nossa base.
+                    </div>
+                {% endif %}
+                </div>
+                <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab" tabindex="0">
+                    {% if list_solicitacoes %}
+                    <table class="table table-hover border text-center">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Título</th>
+                                <th scope="col">Criado Por</th>
+                                <th scope="col">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for solicitacao in list_solicitacoes %}
+                                <tr>
+                                    <th scope="row">{{solicitacao.id}}</th>
+                                    <td>{{solicitacao.titulo}}</td>
+                                    <td>{{solicitacao.usuario}} - {{solicitacao.horarioCriacao}}</td>
+                                    <td>
+                                        <div class="d-grid gap-2 d-md-block">
+                                            <button class="btn btn-success" type="button">Relatório</button>
                                         </div>
                                     </td>
                                 </tr>
@@ -80,38 +145,6 @@
                 {% endif %}
             </div>
             <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="0">
-                {% if list_solicitacoes_inativas %}
-                <table class="table table-hover border text-center">
-                    <thead>
-                        <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">Título</th>
-                            <th scope="col">Criado Por</th>
-                            <th scope="col">Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for solicitacao in list_solicitacoes_inativas %}
-                            <tr>
-                                <th scope="row">{{solicitacao.id}}</th>
-                                <td>{{solicitacao.titulo}}</td>
-                                <td>{{solicitacao.usuario}} - {{solicitacao.horarioCriacao}}</td>
-                                <td>
-                                    <div class="d-grid gap-2 d-md-block">                                           
-                                        <a href="{% url 'relatorios' solicitacao.pk %}" class="btn btn-success" type="button">Relatório</a>
-                                    </div>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            {% else %}
-                <div class="alert alert-info" role="alert">
-                    Sem solicitação inativas cadastrada em nossa base.
-                </div>
-            {% endif %}
-            </div>
-            <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab" tabindex="0">
                 {% if list_solicitacoes %}
                 <table class="table table-hover border text-center">
                     <thead>
@@ -119,7 +152,6 @@
                             <th scope="col">ID</th>
                             <th scope="col">Título</th>
                             <th scope="col">Criado Por</th>
-                            <th scope="col">Ações</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -128,11 +160,6 @@
                                 <th scope="row">{{solicitacao.id}}</th>
                                 <td>{{solicitacao.titulo}}</td>
                                 <td>{{solicitacao.usuario}} - {{solicitacao.horarioCriacao}}</td>
-                                <td>
-                                    <div class="d-grid gap-2 d-md-block">
-                                        <button class="btn btn-success" type="button">Relatório</button>
-                                    </div>
-                                </td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -142,34 +169,17 @@
                     Sem solicitação cadastrada em nossa base, caso queira cadastrar <a href="{% url 'pedir_doacao' %}" class="alert-link">clique aqui</a>.
                 </div>
             {% endif %}
-        </div>
-        <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="0">
-            {% if list_solicitacoes %}
-            <table class="table table-hover border text-center">
-                <thead>
-                    <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Título</th>
-                        <th scope="col">Criado Por</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for solicitacao in list_solicitacoes %}
-                        <tr>
-                            <th scope="row">{{solicitacao.id}}</th>
-                            <td>{{solicitacao.titulo}}</td>
-                            <td>{{solicitacao.usuario}} - {{solicitacao.horarioCriacao}}</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                </div>
+            </div>
         {% else %}
-            <div class="alert alert-info" role="alert">
-                Sem solicitação cadastrada em nossa base, caso queira cadastrar <a href="{% url 'pedir_doacao' %}" class="alert-link">clique aqui</a>.
+            <div class="alert alert-danger" role="alert">
+                <h4 class="alert-heading">Acesso Negado!</h4>
+                <p>Exclusivo para instituições: Apenas organizações têm permissão para acessar essa funcionalidade.</p>
+                <p>Contribua para causas importantes e faça a diferença!</p>
+                <hr>
+                <p class="mb-0">Em caso de qualquer problema ou erro, por favor, entre em contato com a equipe Mãos Amigas para assistência.</p>
             </div>
         {% endif %}
-            </div>
-        </div>
     </div>
 </div>
 

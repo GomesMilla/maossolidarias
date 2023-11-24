@@ -4,18 +4,27 @@
 {% block conteudo %}
 
 <div class="container topperfildetail">
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
+    {% if request.user == object.usuario %}
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="alert alert-danger" role="alert">
+                <h4 class="alert-heading">Atenção!</h4>
+                <p>Você tem certeza que deseja desativar a solicitação {{object}}</p>
+                <hr>
+                <p class="mb-0">Ao confirmar a solicitação será inativa e auticamente deixará de ser exibida em nossas listagem de solicitações.</p>
+            </div>
+            <div class="d-grid gap-2 d-md-block">
+                <button class="btn btn-success" type="submit">Confirmar</button>
+                <button class="btn btn-danger">Cancelar</button>
+            </div>
+        </form> 
+    {% else %}
         <div class="alert alert-danger" role="alert">
-            <h4 class="alert-heading">Atenção!</h4>
-            <p>Você tem certeza que deseja desativar a solicitação {{object}}</p>
+            <h4 class="alert-heading">Acesso Negado!</h4>
+            <p>A exclusão da solicitação só pode ser realizada pelo próprio solicitante.</p>
             <hr>
-            <p class="mb-0">Ao confirmar a solicitação será inativa e auticamente deixará de ser exibida em nossas listagem de solicitações.</p>
+            <p class="mb-0">Em caso de qualquer problema ou erro, por favor, entre em contato com a equipe Mãos Amigas para assistência.</p>
         </div>
-        <div class="d-grid gap-2 d-md-block">
-            <button class="btn btn-success" type="submit">Confirmar</button>
-            <button class="btn btn-danger">Cancelar</button>
-          </div>
-    </form>  
+    {% endif %}
 </div>
 {% endblock %} 

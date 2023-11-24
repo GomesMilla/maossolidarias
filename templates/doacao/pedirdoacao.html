@@ -4,15 +4,26 @@
 {% block conteudo %}
 
 <div class="container">
-    <p class="tituloIndexcadastro">Pedir Doação</p>
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{form.media}}
-        {{ form|bootstrap }}
-        <div class="d-grid gap-2 col-6 mx-auto">
-            <button class="btn btn-dark rounded-pill" type="submit">Cadastrar</button>
+    {% if request.user.is_juridico %}
+        <p class="tituloIndexcadastro">Pedir Doação</p>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{form.media}}
+            {{ form|bootstrap }}
+            <div class="d-grid gap-2 col-6 mx-auto">
+                <button class="btn btn-dark rounded-pill" type="submit">Cadastrar</button>
+            </div>
+        </form>
+    {% else %}
+        <p class="tituloIndexcadastro"></p>
+        <div class="alert alert-danger" role="alert">
+            <h4 class="alert-heading">Acesso Negado!</h4>
+            <p>Exclusivo para instituições: Apenas organizações têm permissão para cadastrar solicitações.</p>
+            <p>Contribua para causas importantes e faça a diferença!</p>
+            <hr>
+            <p class="mb-0">Em caso de qualquer problema ou erro, por favor, entre em contato com a equipe Mãos Amigas para assistência.</p>
         </div>
-    </form>  
+    {% endif %}
 </div>
 <script>
     var elemento = document.getElementById("id_fotoImagem");

@@ -6,6 +6,7 @@ from base.models import CategoriaDoacao, PedirDoacao, VisualizacaoObjeto
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ValidationError
 from django.db.models import Count
 from django.http import HttpResponse, JsonResponse
@@ -59,11 +60,19 @@ class PessoaJuridicaCreateView(CreateView):
         form.instance.is_juridico = True        
         return super().form_valid(form)
 
-class PessoaJuridicaUpdateView(UpdateView):
+class PessoaJuridicaUpdateView(LoginRequiredMixin,UpdateView):
     model = User
     form_class = PessoaJuridicaEditarForm
     template_name = 'users/juridico/atualizar-conta-juridico.html'
     success_url = '/users/login'
+
+    def get_object(self, queryset=None):
+        return self.request.user
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['perfil_usuario'] = self.request.user
+        return context
 
     def form_valid(self, form):
         form.instance.is_juridico = True        
@@ -80,7 +89,7 @@ class PessoaFisicaCreateView(CreateView):
         form.instance.is_juridico = False        
         return super().form_valid(form)
 
-class PessoaFisicaUpdateView(UpdateView):
+class PessoaFisicaUpdateView(LoginRequiredMixin,UpdateView):
     model = User
     form_class = PessoaFisicaEditarForm
     template_name = 'users/fisica/atualizar-conta-fisica.html'
@@ -156,7 +165,7 @@ class PerfilDetailFisicaView(DetailView):
         
         return context
 
-class PainelAdministrativo(DetailView):
+class PainelAdministrativo(LoginRequiredMixin,DetailView):
     model = User
     template_name = 'users/juridico/painel-administrativo.html'
 
