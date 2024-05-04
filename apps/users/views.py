@@ -1,28 +1,37 @@
 import logging
-import re
 import unicodedata
 
-from base.models import CategoriaDoacao, PedirDoacao, VisualizacaoObjeto
+from base.models import PedirDoacao, VisualizacaoObjeto
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.exceptions import ValidationError
 from django.db.models import Count
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 from django.shortcuts import get_list_or_404, redirect, render
-from django.utils import timezone
-from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
-                                  TemplateView, UpdateView)
+from django.views.decorators.csrf import csrf_exempt
+from django.views.generic import CreateView, DetailView, ListView, UpdateView
 from django.views.generic.detail import DetailView
 
-from users.forms import PessoaFisicaForm, PessoaJuridicaForm, DenunciarEmpresaForm
-from users.models import User, DenunciarEmpresa
+from users.forms import (DenunciarEmpresaForm, PessoaFisicaForm,
+                        PessoaJuridicaForm)
+from users.models import User
 
 from .forms import *
 from .models import *
 
 logger = logging.getLogger(__name__)
+
+@login_required
+@csrf_exempt
+def change_theme(request):
+    print("Chegueiiii")
+    if request.method == 'POST':
+        theme = request.POST.get('theme')
+        request.user.theme = theme
+        request.user.save()
+        return JsonResponse({'status': 'ok'})
+    return JsonResponse({'status': 'error'}, status=400)
 
 def ViewLogin(request):
     if request.user.is_authenticated:

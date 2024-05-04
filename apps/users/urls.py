@@ -9,6 +9,7 @@ urlpatterns = [
     path('login/', ViewLogin, name = 'login'),
     path('logout/', ViewLogout, name = 'logout'),
     path("criar-conta/", TemplateView.as_view(template_name="presentation/creataccountinitial.html"), name="criar_conta"),
+    path('change-theme/', change_theme, name='change-theme'),
     
     # Jurídico
     path("criar-conta-juridico/", PessoaJuridicaCreateView.as_view(), name="criar_conta_juridico"),
@@ -24,4 +25,5 @@ urlpatterns = [
     path("perfil/<int:pk>/fisica", PerfilDetailFisicaView.as_view(), name="perfil_pessoa_fisica"),
 
     path('Ajax-Verificar-Email/', AjaxVerificarEmail, name="AjaxVerificarEmail"),
+    
 ]

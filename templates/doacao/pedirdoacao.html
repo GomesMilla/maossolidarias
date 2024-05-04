@@ -2,7 +2,32 @@
 {% load static %}
 {% load bootstrap %}
 {% block conteudo %}
-
+<style>
+    .cke_top {
+        border-bottom: 1px solid #d1d1d1;
+        background:  #222529 !important;
+        padding: 6px 8px 2px;
+        white-space: normal;
+    }
+    .cke_bottom {
+        background-image: none !important;
+        background: #222529 !important;
+        border-top: 1px solid ##222529 !important;
+        box-shadow: none !important;
+    }
+    
+    .cke_path_item {
+        color: ##222529 !important;
+        text-shadow: none !important;
+    }
+    
+    a.cke_path_item:hover {
+        background: ##222529 !important;
+        border-bottom: none !important;
+        box-shadow: none !important;
+    }
+    
+</style>
 <div class="container">
     {% if request.user.is_juridico %}
         <p class="tituloIndexcadastro">Pedir Doação</p>
@@ -11,7 +36,7 @@
             {{form.media}}
             {{ form|bootstrap }}
             <div class="d-grid gap-2 col-6 mx-auto">
-                <button class="btn btn-dark rounded-pill" type="submit">Cadastrar</button>
+                <button class="btn btn-success rounded-pill" type="submit">Cadastrar</button>
             </div>
         </form>
     {% else %}

@@ -62,3 +62,10 @@ a{
         font-size: 25px;
     }
 }
+
+.cke_top {
+    border-bottom: 1px solid #d1d1d1;
+    background: #110f0f !important;
+    padding: 6px 8px 2px;
+    white-space: normal;
+}

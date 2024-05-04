@@ -9,6 +9,7 @@
         }
     </style>
     <div class="container topobjetivo">
+        {% if list_solicitacoes %}
         <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel" data-bs-wrap="true">
             <div class="carousel-indicators">
                 {% for solcitacao in list_solicitacoes %}
@@ -38,7 +39,8 @@
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Next</span>
             </button>
-        </div>   
+        </div>
+        {% endif %}   
         {% if solicitacoes_mais_acessadas %}
             <div class="mt-5">
                 <h4 class="text-center">Solicitações mais acessadas</h3>

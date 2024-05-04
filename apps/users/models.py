@@ -68,6 +68,11 @@ class Cidade(models.Model):
     def __str__(self):
         return self.nome
 
+THEME_CHOICES = [
+    ("dark", "Dark"),
+    ("light", "Light"),
+    ("auto", "Auto"),
+]
 class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(
         max_length=255,
@@ -95,6 +100,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     rua =  models.CharField('Rua',max_length=50, blank=True, null=True)
     numero =  models.CharField("Número",max_length=50, blank=True, null=True)
     complemento =  models.CharField("Complemento",max_length=200, blank=True, null=True)
+    theme = models.CharField(max_length=5, default="dark", choices=THEME_CHOICES)
 
 
     # Campos adicionais para pessoa física

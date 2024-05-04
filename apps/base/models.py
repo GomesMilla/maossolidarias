@@ -41,11 +41,7 @@ class PedirDoacao(models.Model):
 class VisualizacaoObjeto(models.Model):
     solicitacao = models.ForeignKey("PedirDoacao", on_delete=models.CASCADE, related_name="solicitacao_visualicao")
     ip = models.CharField('Endereço de IP', max_length=250)
-<<<<<<< HEAD
     estado = models.CharField('Estado', null=True, blank=True, max_length=60)
-=======
-    estado = models.CharField('EStado', null=True, blank=True, max_length=60)
->>>>>>> 4148024 (:pushpin: Subindo correção de um erro no models)
     dataHorarioCriacao = models.DateTimeField('Horário de Criação', auto_now_add=True)
 
     class Meta:
