@@ -1,0 +1,23 @@
+{% extends 'bases/baselogado.html' %}
+{% load static %}
+{% load bootstrap %}
+{% block conteudo %}
+<h1 class="topobjetivo">Listagem de Doações</h1>
+{% if listafinal %}
+    <ul>
+    {% for categoria in listafinal %}
+        <li>
+            <strong>{{ categoria.category }}</strong>
+            <ul>
+            {% for doacao in categoria.listdoacao %}
+                <li>{{ doacao }}</li>
+            {% endfor %}
+            </ul>
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Nenhuma doação encontrada ou a tarefa está em andamento.</p>
+    <p>Contexto: {{ listafinal }}</p>  <!-- Adicionando log de depuração -->
+{% endif %}
+{% endblock %}

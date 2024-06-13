@@ -12,7 +12,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
-                                TemplateView, UpdateView)
+                                TemplateView, UpdateView, View)
 from django.views.generic.detail import DetailView
 from users.models import User
 
@@ -20,7 +20,7 @@ from .forms import ContatarSolicitacaoForm, PedirDoacaoForm
 from .models import (CategoriaDoacao, ContatarSolicitacao, PedirDoacao,
                     VisualizacaoObjeto)
 
-
+from .tasks import listagem_de_solicitacoes
 class GoalView(TemplateView):
     template_name = "presentation/objetivo.html"
 
@@ -39,7 +39,7 @@ class IntroductionView(ListView):
         # Obtenha as solicitações correspondentes às visualizações mais acessadas
         solicitacoes_mais_acessadas = PedirDoacao.objects.filter(
             pk__in=[item['solicitacao'] for item in visualizacoes_por_solicitacao],
-            is_active=True  # Adicione esta cláusula para filtrar apenas as ativas
+            is_active=True
         )
         context['list_solicitacoes'] = PedirDoacao.objects.filter(is_active=True) 
         context['solicitacoes_mais_acessadas'] = solicitacoes_mais_acessadas
@@ -190,7 +190,6 @@ class RelatoriosView(DetailView):
         context['dict_meses'] = dict_meses
         context['ultimosacessos'] = VisualizacaoObjeto.objects.filter(solicitacao=solicitacao).order_by('-dataHorarioCriacao')[:10]
         
-
         return context
 
 class ContatosSolicitacaoView(DetailView): 
@@ -207,6 +206,61 @@ class ContatosSolicitacaoView(DetailView):
         context['contato_mes'] = contatos_do_mes
         context['todos_contatos'] = todos_contatos
         return context
+
+class ListagemSolicitacoes(ListView):
+    model = PedirDoacao
+    template_name = 'doacao/listdoacoes.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ListagemSolicitacoes, self).get_context_data(**kwargs)
+        task_result = listagem_de_solicitacoes.delay()
+        import time
+        # Polling para aguardar a conclusão da tarefa
+        for _ in range(10):  # Tentativas de esperar (ajuste conforme necessário)
+            if task_result.ready():
+                break
+            time.sleep(1)  # Espera de 1 segundo entre tentativas
+
+        if task_result.ready():
+            listafinal = task_result.result
+            context['listafinal'] = listafinal
+            # Log para verificar o resultado
+            print("Resultado da tarefa na view:", listafinal)
+        else:
+            context['listafinal'] = None  # Ou alguma mensagem indicando que a tarefa ainda está em andamento
+            print("Tarefa ainda não concluída")
+
+        return context
+class ListagemSolicitacoes(View):
+    """
+        View sobre o relatório geral de cada curso
+    """
+
+    def get(self, request):
+        nome_template = 'doacao/listdoacoes.html'
+        task_result = listagem_de_solicitacoes.delay()
+        context = {}
+
+        import time
+        # Polling para aguardar a conclusão da tarefa
+        for _ in range(10):  # Tentativas de esperar (ajuste conforme necessário)
+            if task_result.ready():
+                break
+            time.sleep(1)  # Espera de 1 segundo entre tentativas
+
+        if task_result.ready():
+            listafinal = task_result.result
+            context['listafinal'] = listafinal
+            # Log para verificar o resultado
+            print("Resultado da tarefa na view:", listafinal)
+        else:
+            context['listafinal'] = None  # Ou alguma mensagem indicando que a tarefa ainda está em andamento
+            print("Tarefa ainda não concluída")
+
+
+        return render(request, nome_template, context)
+
+
 
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')

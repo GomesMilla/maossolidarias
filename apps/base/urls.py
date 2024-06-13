@@ -7,6 +7,7 @@ from .views import *
 
 urlpatterns = [
     path("pedir-doacao/", login_required(PedirDoacaoCreateView.as_view()), name="pedir_doacao"),
+    path("lista-doacoes/", login_required(ListagemSolicitacoes.as_view()), name="lista_doacoes"),
     path("solicitacoes/", SolicitacoesListView.as_view(), name="solicitacoes"),
     path("solicitacoes-por-categoria/<int:pk>", SolicitacoesPorCategoria.as_view(), name="solicitacoes_por_categoria"),
     path("solicitacao/<int:pk>/edit", login_required(PedirDoacaolUpdate.as_view()), name="editar_solicitacao"),

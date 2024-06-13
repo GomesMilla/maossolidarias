@@ -1,0 +1,6 @@
+O Celery é um sistema de filas, não fazer agora o que pode ser feito depois. Quando voce tem muitas demandas
+dentro do seu sitema voce acaba sobrecarregando o seu servidor principal e isso afeta a usabilidade do usuário dentro do sistema e o Celery veio para ajudar
+ajustar porque quando voce tem tarefas mais complexas voce pode jogar essa tarefas para serem processadas depois e com isso voce melhora a usabilidade,
+pois o usuário não precisará ficar esperando uma tarefa finalizar, enquanto o processo fica em fila para ser processado o usuário pode trabalhar em outras 
+partes
+brokers = quem faz a gestão do armazenamento de tarefas e também quem define quais as tarefas vão ser executadas
