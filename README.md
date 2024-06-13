@@ -50,6 +50,7 @@ Este é um projeto totalmente grátis!
 - [x] Denúnciar Solicitação
 - [x] Entrar em Contato
 - [x] Home informando sobre o projeto, membros e as solicitações mais acessadas
+- [ ] Acrescentar possibilidade de mais de uma foto
 - [ ] Colocar celery
 - [ ] Colocar Redis
 - [ ] Colocar Docker

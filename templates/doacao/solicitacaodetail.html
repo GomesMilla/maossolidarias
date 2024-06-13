@@ -91,15 +91,53 @@
             <div class="container">
                 {{object.descricao|safe}}
             </div>
+            <div class="container">
+                <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel" data-bs-wrap="true">
+                    <div class="carousel-indicators">
+                        {% for image in images %}
+                            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="{{ image.id }}" class="{% if forloop.first %}active{% endif %}" aria-current="true" aria-label="Slide {{ forloop.counter }}"></button>
+                        {% endfor %}
+                    </div>
+                    <div class="carousel-inner">
+                        {% for image in images %}
+                            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                {% if image.imagem %}
+                                <img src="{{ image.imagem.url }}" class="img-fluid" alt="Imagem de Doação" style="max-width: 100%; max-height: 500px;">
+                                {% else %}
+                                    <img src="{% static 'images/undraw_not_found_re_bh2e.svg' %}" class="d-block w-100 img-fluid rounded" alt="..." class="rounded" style="max-width: 100%; max-height: 500px;">
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 <script>
-    $('document').ready(function() {
-        $('#id_telefone').mask('(00) 0000-0000');
-        
-    });
+    document.addEventListener('DOMContentLoaded', function () {
+        const carousel = new bootstrap.Carousel(document.getElementById('carouselExampleCaptions'), {
+            interval: 5000,
+            pause: 'hover'
+        });
 
+        carousel._element.addEventListener('slide.bs.carousel', function (event) {
+            if (event.to === carousel._items.length - 1) {
+                setTimeout(function () {
+                    carousel.to(0); // Volta para o primeiro slide
+                }, 0);
+            }
+        });
+    });
 </script>
+
 {% endblock %} 

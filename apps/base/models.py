@@ -19,7 +19,7 @@ class CategoriaDoacao(models.Model):
 class PedirDoacao(models.Model):
     titulo = models.CharField('Assunto', max_length=60)
     slug = models.SlugField('Slug', unique=True, null=True, blank=True)
-    fotoImagem = models.ImageField("Imagem", upload_to="FotoImagemArtigo/")
+    fotoImagem = models.ImageField("Imagem de Capa", upload_to="FotoImagemArtigo/")
     tipo = models.ForeignKey("CategoriaDoacao", on_delete=models.CASCADE, related_name="categoria")
     resumo = models.TextField('Informe um resumo do seu pedido')
     descricao = RichTextUploadingField("Descreva tudo que precisa")
@@ -37,6 +37,9 @@ class PedirDoacao(models.Model):
     def __str__(self):
         return str(self.titulo)
 
+class ImagemDoacao(models.Model):
+    pedir_doacao = models.ForeignKey('PedirDoacao', on_delete=models.CASCADE, related_name='imagens')
+    imagem = models.ImageField(upload_to='photos/')
 
 class VisualizacaoObjeto(models.Model):
     solicitacao = models.ForeignKey("PedirDoacao", on_delete=models.CASCADE, related_name="solicitacao_visualicao")

@@ -18,7 +18,7 @@ from users.models import User
 
 from .forms import ContatarSolicitacaoForm, PedirDoacaoForm
 from .models import (CategoriaDoacao, ContatarSolicitacao, PedirDoacao,
-                    VisualizacaoObjeto)
+                    VisualizacaoObjeto, ImagemDoacao)
 
 from .tasks import listagem_de_solicitacoes
 class GoalView(TemplateView):
@@ -123,6 +123,7 @@ class SolicitacaoDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         formulario = ContatarSolicitacaoForm()
         solicitacao = self.get_object()
+        context["images"] = ImagemDoacao.objects.filter(pedir_doacao=solicitacao)
         formulario.fields['solicitacao'].initial = solicitacao
         context['formulario'] = formulario
         return context
