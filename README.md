@@ -27,6 +27,7 @@ Este é um projeto totalmente grátis!
 
 ### 🏁 Features
 
+- [x] Modo Dark
 - [x] Cadastro de Usuário Físico
 - [x] Cadastro de Usuário Jurídico
 - [x] Cadastro de Doações/Solitações
@@ -46,7 +47,13 @@ Este é um projeto totalmente grátis!
 - [x] Painel Administrativo de contatos que cada doação/solicitação obteve
 - [x] Inativar Solicitação
 - [x] Recuperação de Senha
+- [x] Denúnciar Solicitação
+- [x] Entrar em Contato
 - [x] Home informando sobre o projeto, membros e as solicitações mais acessadas
+- [ ] Colocar celery
+- [ ] Colocar Redis
+- [ ] Colocar Docker
+- [ ] Colocar Postgresql
 
 ### 🛠 Tecnologias
 <p>As seguintes ferramentas foram usadas na construção do projeto:</p>

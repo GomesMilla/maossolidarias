@@ -1,5 +1,6 @@
 amqp==5.2.0
 asgiref==3.7.2
+async-timeout==4.0.3
 billiard==4.2.0
 celery==5.4.0
 certifi==2023.7.22
@@ -28,6 +29,7 @@ pyOpenSSL==23.2.0
 python-dateutil==2.8.2
 python-http-client==3.3.7
 pytz==2023.3.post1
+redis==5.0.4
 requests==2.31.0
 sendgrid==6.10.0
 six==1.16.0
