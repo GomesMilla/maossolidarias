@@ -4,24 +4,23 @@ from .models import CategoriaDoacao, ContatarSolicitacao, PedirDoacao, ImagemDoa
 
 
 class PedirDoacaoForm(forms.ModelForm):
-    imagens = forms.FileField(
-        widget=forms.ClearableFileInput(attrs={
-            "name": "images",
-            "type": "file",
-            "class": "form-control",
-            "multiple": True,
-        }),
-        label=""
-    )
+    # imagens = forms.FileField(
+    #     widget=forms.ClearableFileInput(attrs={
+    #         "multiple": True,
+    #     }),
+    #     label="",
+    #     required=False
+    # )
+
     class Meta:
         model = PedirDoacao
         exclude = ('slug', 'horarioCriacao', 'is_active', 'usuario', 'motivo_inativacao')
 
     def save(self, commit=True):
         instance = super(PedirDoacaoForm, self).save(commit=commit)
-        # save images
-        for image in self.files.getlist('imagens'):
-            ImagemDoacao.objects.create(pedir_doacao=instance, imagem=image)
+        if 'imagens' in self.files:
+            for image in self.files.getlist('imagens'):
+                ImagemDoacao.objects.create(pedir_doacao=instance, imagem=image)
         return instance
 
 class ContatarSolicitacaoForm(forms.ModelForm):

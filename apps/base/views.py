@@ -44,7 +44,6 @@ class IntroductionView(ListView):
         context['list_solicitacoes'] = PedirDoacao.objects.filter(is_active=True) 
         context['solicitacoes_mais_acessadas'] = solicitacoes_mais_acessadas
         return context
-
 class PedirDoacaoCreateView(CreateView):
     model = PedirDoacao
     form_class = PedirDoacaoForm
@@ -52,9 +51,8 @@ class PedirDoacaoCreateView(CreateView):
 
     def form_valid(self, form):
         user = self.request.user
-        objuser = User.objects.get(pk=user.id)   
         form.instance.usuario = user
-        form.instance.is_active = True          
+        form.instance.is_active = True
         return super().form_valid(form)
 
     def get_success_url(self):
